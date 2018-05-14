@@ -1,0 +1,1 @@
+from handlers.mai_method.get import get
