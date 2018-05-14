@@ -1,9 +1,9 @@
-#SMAP API Deployment code
+# SMAP API Deployment code
 
-##This is the smap-api deployment code for AWS Lambda
+## This is the smap-api deployment code for AWS Lambda
 
-###NOTE:
+### NOTE:
 Please use the dev branch for development. You should create branches from the dev branch.
 
-###To Be Modified:
+### To Be Modified:
 The workflow had been setup. Now we only need to modify the get, post, put, delete methods in their corresponding method packages under the "handlers" package.
