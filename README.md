@@ -6,4 +6,4 @@
 Please use the dev branch for development. You should create branches from the dev branch.
 
 ### To Be Modified:
-The workflow had been setup. Now we only need to modify the get, post, put, delete methods in their corresponding method packages under the "handlers" package.
+The workflow has been setup. Now we only need to modify the get, post, put, delete methods in their corresponding method packages under the "handlers" package.
