@@ -1,5 +1,6 @@
 # config file containing credentials for rds mysql instance
-db_host = "rds-instance-endpoint"
-db_username = "username"
-db_password = "password"
-db_name = "databasename"
+db_host = 'smap-db.crpaee5cpcil.us-east-2.rds.amazonaws.com'
+db_username = 'smapadmin'
+db_password = 'smapteam09'
+db_port = 3306
+db_name = 'smapdb'
