@@ -1,0 +1,50 @@
+event = {
+    'resource': '/{proxy+}',
+    'path': '/mai',
+    'httpMethod': 'GET',
+    'headers': {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate',
+        'Host': '4w2p4dep25.execute-api.us-east-2.amazonaws.com',
+        'User-Agent': 'python-requests/2.18.4',
+        'X-Amzn-Trace-Id': 'Root=1-5af8d980-5c1f5f0e7586495ee5c2734c',
+        'x-api-key': 'lpXJ4sMk76AvS2Sx7TuD9EvMM0KmXTFOsoilxS00',
+        'X-Forwarded-For': '137.110.67.184',
+        'X-Forwarded-Port': '443',
+        'X-Forwarded-Proto': 'https'
+    },
+    'queryStringParameters': None,
+    'pathParameters': {'proxy': 'mai'},
+    'stageVariables': None,
+    'requestContext': {
+        'resourceId': 's8ntyb',
+        'resourcePath': '/{proxy+}',
+        'httpMethod': 'GET',
+        'extendedRequestId': 'G2bsBFspCYcFf-g=',
+        'requestTime': '14/May/2018:00:34:08 +0000',
+        'path': '/testDeployment_1/mai',
+        'accountId': '695417987250',
+        'protocol': 'HTTP/1.1',
+        'stage': 'testDeployment_1',
+        'requestTimeEpoch': 1526258048134,
+        'requestId': '83737312-570e-11e8-b1a6-a323d76b2879',
+        'identity': {
+            'cognitoIdentityPoolId': None,
+            'cognitoIdentityId': None,
+            'apiKey': 'lpXJ4sMk76AvS2Sx7TuD9EvMM0KmXTFOsoilxS00',
+            'cognitoAuthenticationType': None,
+            'userArn': None,
+            'apiKeyId': '69o4rs7yce',
+            'userAgent': 'python-requests/2.18.4',
+            'accountId': None,
+            'caller': None,
+            'sourceIp': '137.110.67.184',
+            'accessKey': None,
+            'cognitoAuthenticationProvider': None,
+            'user': None
+        },
+        'apiId': '4w2p4dep25'
+    },
+    'body': 'this is sample body',
+    'isBase64Encoded': False
+}
