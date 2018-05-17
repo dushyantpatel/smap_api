@@ -20,4 +20,6 @@ class Header:
 
     # function to get the header as a dictionary
     def getHeader(self):
+        if not len(self.__header):
+            return None
         return self.__header

@@ -12,7 +12,6 @@ def handler(request, connection):
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    res = Response()
     body = Body()
 
     try:
@@ -21,9 +20,8 @@ def handler(request, connection):
     except KeyError:
         status_code = 501
 
-    header.addParameter('status', responseCodeDescription(status_code))
-    res.setHeaders(header.getHeader())
-    res.setStatusCode(status_code)
-    res.setBody(body)
+    header.addParameter('status', status_code)
+    header.addParameter('message', responseCodeDescription(status_code))
+    res = Response(status_code, header.getHeader(), body)
 
     return res.getResponse()

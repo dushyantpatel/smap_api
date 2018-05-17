@@ -5,6 +5,7 @@ import pymysql
 from handlers import *
 from response_objects import *
 
+
 # rds settings
 rds_host = rds_config.db_host
 name = rds_config.db_username
@@ -45,11 +46,9 @@ def main_handler(request, context):
     except KeyError:
         status_code = 501
         header = Header()
-        header.addParameter('status', responseCodeDescription(status_code))
-        res = Response()
-        res.setStatusCode(status_code)
-        res.setHeaders(header.getHeader())
-        res.setBody(Body())
+        header.addParameter('status', status_code)
+        header.addParameter('message', responseCodeDescription(status_code))
+        res = Response(status_code, header.getHeader(), Body())
         return res.getResponse()
 
     return handler(request, connection)  # call appropriate handler

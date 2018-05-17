@@ -7,7 +7,7 @@ In order to generate the response, call the getResponse() method.
 
 class Response:
     # initialize all local variables
-    def __init__(self, statusCode=0, headers={}, body='', isBase64Encoded=False):
+    def __init__(self, statusCode=200, headers=None, body=None, isBase64Encoded=False):
         self.__statusCode = statusCode
         self.__headers = headers
         self.__body = body

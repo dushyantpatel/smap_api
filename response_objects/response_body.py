@@ -25,10 +25,12 @@ class Body:
 
     # function to get the string for body
     def getBody(self):
+        if not len(self.__body):
+            return None
         return str(self.__body)
 
     # alternate way to get the string
     def __str__(self):
-        return self.getBody()
+        return str(self.getBody())
 
     __repr__ = __str__
