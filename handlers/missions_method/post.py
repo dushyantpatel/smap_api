@@ -1,7 +1,9 @@
 # TODO - implementation
+from response_objects.response_body import Body
 
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-    print("missions_method.post has been called")
-    return {}
+    body = Body()
+    body.addParameter('message', 'missions.post has been called')
+    return body

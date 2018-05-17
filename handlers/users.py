@@ -7,13 +7,13 @@ methods = {'GET': get,
            'POST': post,
            'PUT': put}
 
+
 # handler for users
 def handler(request, connection):
     """This function will handle all method requests for users"""
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    res = Response()
     body = Body()
 
     try:

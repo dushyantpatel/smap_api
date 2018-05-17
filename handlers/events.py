@@ -15,12 +15,10 @@ def handler(request, connection):
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    res = Response()
     body = Body()
 
     try:
-        body_content = methods[method](request, connection)
-        body.setBody(body_content)
+        body = methods[method](request, connection)
     except KeyError:
         status_code = 501
 

@@ -15,7 +15,6 @@ def handler(request, connection):
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    res = Response()
     body = Body()
 
     try:

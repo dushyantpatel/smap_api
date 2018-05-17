@@ -1,7 +1,9 @@
 # TODO - implementation
+from response_objects.response_body import Body
 
 
 # NOTE: this function must return a dictionary type
 def put(request, connection):
-    print("events_method.put has been called")
-    return {}
+    body = Body()
+    body.addParameter('message', 'events.put has been called')
+    return body
