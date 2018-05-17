@@ -15,7 +15,7 @@ def handler(request, connection):
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    body = Body()
+    body = Body({})
 
     try:
         body = methods[method](request, connection)
@@ -24,6 +24,6 @@ def handler(request, connection):
 
     header.addParameter('status', status_code)
     header.addParameter('message', responseCodeDescription(status_code))
-    res = Response(status_code, header.getHeader(), body)
+    res = Response(status_code, header.getHeader(), body.getBody())
 
     return res.getResponse()
