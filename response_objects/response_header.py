@@ -9,8 +9,8 @@ Then call the getHeader() method to get the header (dict)
 
 class Header:
     # initialize all local variables
-    def __init__(self):
-        self.__header = {}
+    def __init__(self, header={}):
+        self.__header = header
 
     # function to add a parameter to the header
     # NOTE: key must be of type string (str)

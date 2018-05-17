@@ -7,11 +7,11 @@ In order to generate the response, call the getResponse() method.
 
 class Response:
     # initialize all local variables
-    def __init__(self):
-        self.__statusCode = 0
-        self.__headers = {}
-        self.__body = ""
-        self.__isBase64Encoded = False
+    def __init__(self, statusCode=0, headers={}, body='', isBase64Encoded=False):
+        self.__statusCode = statusCode
+        self.__headers = headers
+        self.__body = body
+        self.__isBase64Encoded = isBase64Encoded
 
     # function to set status code in the response
     # NOTE: statusCode must be of type int

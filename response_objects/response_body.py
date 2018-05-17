@@ -8,8 +8,8 @@ the body
 
 class Body:
     # initialize all local variables
-    def __init__(self):
-        self.__body = {}
+    def __init__(self, body={}):
+        self.__body = body
 
     # function to add a parameter to the body
     # NOTE: key must be of type string (str)
