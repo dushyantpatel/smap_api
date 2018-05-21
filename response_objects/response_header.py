@@ -9,17 +9,17 @@ Then call the getHeader() method to get the header (dict)
 
 class Header:
     # initialize all local variables
-    def __init__(self, header={}):
+    def __init__(self, header=None):
         self.__header = header
 
     # function to add a parameter to the header
     # NOTE: key must be of type string (str)
     def addParameter(self, key, value):
         if isinstance(key, str):
+            if self.__header is None:
+                self.__header = {}
             self.__header[key] = value
 
     # function to get the header as a dictionary
     def getHeader(self):
-        if not len(self.__header):
-            return None
         return self.__header

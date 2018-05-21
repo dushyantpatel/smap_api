@@ -12,7 +12,7 @@ def handler(request, connection):
     method = request['httpMethod']
     status_code = 200
     header = Header()
-    body = Body({})
+    body = Body()
 
     try:
         body = methods[method](request, connection)
