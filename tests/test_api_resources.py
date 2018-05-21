@@ -16,25 +16,28 @@ num_valid_methods = [1, 4, 4, 4, 3, 0]
 
 class TestAPIResources(unittest.TestCase):
 
+    def setUp(self):
+        self.event = Event()
+
     def run_tests(self, id):
-        resource = resources[id]
-        num_methods = num_valid_methods[id]
-        event = Event()
-        event.setPath(resource)
+        self.resource = resources[id]
+        self.num_methods = num_valid_methods[id]
+        self.event.setPath(self.resource)
+        # event = Event()
 
         # test all valid methods
-        for method in methods[:num_methods]:
-            event.setHttpMethod(method)
-            msg = message_template.format(resource, method.lower())
-            res = main_handler(event.getEvent(), None)
+        for method in methods[:self.num_methods]:
+            self.event.setHttpMethod(method)
+            msg = message_template.format(self.resource, method.lower())
+            res = main_handler(self.event.getEvent(), None)
             self.assertEqual(res['statusCode'], 200)
             body = ast.literal_eval(res['body'])
             self.assertEqual(body['message'], msg)
 
         # test all invalid methods
-        for method in methods[num_methods:]:
-            event.setHttpMethod(method)
-            res = main_handler(event.getEvent(), None)
+        for method in methods[self.num_methods:]:
+            self.event.setHttpMethod(method)
+            res = main_handler(self.event.getEvent(), None)
             self.assertEqual(res['statusCode'], 501)
             self.assertEqual(res['body'], str(None))
 
