@@ -1,7 +1,6 @@
 #### TravisCI Build status
 [![Build Status](https://travis-ci.com/dushyantpatel/smap_api.svg?token=Jx8LU2RPAYJqzazeHJ5U&branch=master)](https://travis-ci.com/dushyantpatel/smap_api)
 
-<<<<<<< HEAD
 # SMAP API Deployment code
 
 ## This is the smap-api deployment code for AWS Lambda
