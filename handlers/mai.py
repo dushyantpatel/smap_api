@@ -15,7 +15,7 @@ def handler(event, connection):
     body = Body()
 
     try:
-        body = methods[method](event, connection)
+        body = methods[method](event['body'], connection)
     except KeyError:
         status_code = 501
 
