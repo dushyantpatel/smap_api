@@ -1,1 +1,1 @@
-import database_queries.query_strings
+__all__ = ['query_strings']
