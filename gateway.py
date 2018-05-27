@@ -37,10 +37,10 @@ resources = {"/mai": mai.handler,
 
 
 # main handler for any API call
-def main_handler(request, context):
+def main_handler(event, context):
     """This function handles all API calls"""
 
-    path = request['path']
+    path = event['path']
 
     try:
         handler = resources[path]
@@ -52,4 +52,4 @@ def main_handler(request, context):
         res = Response(status_code, header.getHeader(), Body().getBody())
         return res.getResponse()
 
-    return handler(request, connection)  # call appropriate handler
+    return handler(event, connection)  # call appropriate handler

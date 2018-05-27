@@ -9,15 +9,15 @@ methods = {'GET': get,
 
 
 # handler for users
-def handler(request, connection):
+def handler(event, connection):
     """This function will handle all method requests for users"""
-    method = request['httpMethod']
+    method = event['httpMethod']
     status_code = 200
     header = Header()
     body = Body()
 
     try:
-        body = methods[method](request, connection)
+        body = methods[method](event, connection)
     except KeyError:
         status_code = 501
 
