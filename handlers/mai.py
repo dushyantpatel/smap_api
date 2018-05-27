@@ -1,5 +1,6 @@
 from response_objects import *
 from handlers.mai_method import *
+import ast
 
 
 # dictionary of valid methods for mai
@@ -15,7 +16,7 @@ def handler(event, connection):
     body = Body()
 
     try:
-        body = methods[method](event['body'], connection)
+        body = methods[method](ast.literal_eval(event['body']), connection)
     except KeyError:
         status_code = 501
 
