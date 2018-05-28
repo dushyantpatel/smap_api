@@ -5,7 +5,7 @@ from database_queries import *
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-    connection = pymysql.connect()
+    # connection = pymysql.connect()
     events = request['Events']
 
     #{0}: Event name, {1}: Logo_URL, {2}:Type,
@@ -19,10 +19,10 @@ def post(request, connection):
     #{4}:location:country, {5}:location:latitude,
     #{6}:location:longitude
 
-    db_String_Loc = query_strings.add_location
+    # db_String_Loc = query_strings.add_location
     db_String = "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11}"
     for event in events:
-        command_Loc = db_String_Loc.format( event['location']['street'], event['location']['city'],
+        command_Loc = db_String.format( event['location']['street'], event['location']['city'],
                                    event['location']['region'], event['location']['postal_code'],
                                    event['location']['country'], event['location']['latitude'],
                                    event['location']['longitude'])

@@ -45,6 +45,6 @@ event = {
         },
         'apiId': '4w2p4dep25'
     },
-    'body': 'this is sample body',
+    'body': '{"message" : "This is a sample body"}',
     'isBase64Encoded': False
 }

@@ -6,5 +6,4 @@ from response_objects.response_body import Body
 def get(request, connection):
     body = Body()
     body.addParameter('message', 'events.get has been called')
-    body.addParameter(request['Events'][''])
     return body

@@ -38,7 +38,8 @@ class Event:
 
     def setBody(self, body):
         # set body in event
-        self.__event['body'] = body
+        if body is not None:
+            self.__event['body'] = body
 
     def getEvent(self):
         # return the event object (dict)
