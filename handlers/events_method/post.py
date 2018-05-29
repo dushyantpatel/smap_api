@@ -15,7 +15,7 @@ __end_time = ''
 __points = ''
 __is_public = ''
 __street = ''
-is_free = 0
+__is_free = 0
 __city = ''
 __state = ''
 __zip = ''
@@ -27,7 +27,6 @@ __location = None
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-    connection = pymysql.connect()
     events = request['Events']
     real_Events = {}
     real_Events["edited"] = []
@@ -50,7 +49,7 @@ def post(request, connection):
         set_event_vars(event)
         real_Events['edited'].append({'name' : __name,'description' : __description, 'image': __image,
                                      'event_url' : __event_url, 'start_time' : __start_time,
-                                     'end_time' : __end_time, 'free_event' : is_free,
+                                     'end_time' : __end_time, 'free_event' : __is_free,
                                      'category' : __category, 'location': __location, 'points': __points,
                                      'is_public' : __is_public, 'event_data' : __event_date})
 
@@ -76,7 +75,6 @@ def post(request, connection):
         with connection.cursor() as cur:
             cur.execute(command_add_event)
             connection.commit()
-            cur.execute()
 
 
     body = Body()
@@ -94,7 +92,7 @@ def get_loc_id(command_add_loc, command_get_Loc, connection):
             #if not push the new location infomation on the database to generate a location_id
             cur.execute(command_add_loc)
             connection.commit()
-            cur.execute()
+            cur.execute(command_add_loc)
             location_id = cur.fetchone()[0]
         else:
             #else just get already existing location_id
@@ -103,7 +101,7 @@ def get_loc_id(command_add_loc, command_get_Loc, connection):
 
 
 def set_event_vars(event):
-    global __name,  __event_url, __category, __is_public, __event_date, \
+    global __name,  __event_url, __category, __is_public, __event_date, __is_free, \
      __start_time, __end_time, __points, __location, __description, __host, __image
     #checking if required variables are correct
     try:
