@@ -53,7 +53,7 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 search_all_events = 'SELECT * FROM event;'
 
 # search specific event knowing the event name
-search_for_event = 'SELECT event_id FROM event WHERE name={0};'
+search_for_event = 'SELECT event_id FROM event WHERE name="{0}";'
 
 #-------------------------------------------------------------------------------
 # Event Linking Table
@@ -74,7 +74,7 @@ add_mission_required = 'INSERT INTO mission (name, location, mission_date, missi
 search_all_missions = 'SELECT * FROM mission;'
 
 # search specific mission knowing the mission name
-search_for_mission = 'SELECT mission_id FROM mission WHERE name={0}'
+search_for_mission = 'SELECT mission_id FROM mission WHERE name="{0}"'
 
 #-------------------------------------------------------------------------------
 # Mission Linking Table
