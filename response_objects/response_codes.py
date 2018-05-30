@@ -4,7 +4,8 @@ __http_resp_code = {
     201: "Created. The database has been updated",
     204: "No Content. The data requested for does not exist",
     400: "Bad Request. Please check your request format",
-    501: "Not Implemented. The requested resource path/method does not exist"
+    501: "Not Implemented. The requested resource path/method does not exist",
+    520: "Unknown error occurred, please let the API developer know immediately"
 }
 
 

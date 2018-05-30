@@ -43,6 +43,10 @@ def handler(event, connection):
     except HTTP_400_Exception as ex:
         status_code = 400
         details = str(ex)
+    except Exception as ex:
+        status_code = 520
+        details = 'ERROR type: {0}. \n{1!r} \n please record details of your API call and let the API developer know.'
+        details = details.format(type(ex).__name__, ex.args)
 
     header.addParameter('status', status_code)
     header.addParameter('message', responseCodeDescription(status_code))
