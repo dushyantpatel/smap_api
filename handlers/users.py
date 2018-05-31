@@ -33,6 +33,7 @@ def handler(event, connection):
             status_code = 200
     except KeyError:
         status_code = 501
+        details = 'The ' + method + ' method has not been implemented.'
     except SyntaxError:
         status_code = 400
         details = 'Incorrect body format'

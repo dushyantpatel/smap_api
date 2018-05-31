@@ -34,6 +34,7 @@ def post(request, connection):
     set_variables(request)
 
     db_add_user = get_add_user_command(connection)
+    print(db_add_user)
 
     # add new user to the database
     with connection.cursor() as cur:
@@ -41,7 +42,6 @@ def post(request, connection):
         connection.commit()
 
     body = Body()
-    body.addParameter('message', 'users.post has been called')
     return body
 
 
@@ -77,9 +77,8 @@ def get_add_user_command(connection):
                                                     __first_name, __last_name, __mission_curator,
                                                     __birthday, location_id)
     else:  # add without any location
-        db_add_user = query_strings.add_user_wo_location.format(__display_name, __profile_pic, __email,
-                                                                __first_name, __last_name, __mission_curator,
-                                                                __birthday)
+        db_add_user = query_strings.add_user_required.format(__display_name, __email,
+                                                             __first_name, __last_name, __mission_curator)
     return db_add_user
 
 

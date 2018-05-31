@@ -29,6 +29,7 @@ def handler(event, connection):
         res_body = methods[method](ast.literal_eval(req_body), connection)
     except KeyError:
         status_code = 501
+        details = 'The ' + method + ' method has not been implemented.'
     except SyntaxError:
         status_code = 400
         details = 'Incorrect body format'

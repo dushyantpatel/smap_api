@@ -5,7 +5,7 @@ import pymysql
 from handlers import *
 from response_objects import *
 
-"""
+
 # rds settings
 rds_host = rds_config.db_host
 name = rds_config.db_username
@@ -26,8 +26,8 @@ except pymysql.err.Error as ex:
     sys.exit()
 
 logger.info("SUCCESS: Connection to RDS mysql instance succeeded")
-"""
-connection = None  # This is just for testing - uncomment the above code and delete this line after testing
+
+# connection = None  # This is just for testing - uncomment the above code and delete this line after testing
 # valid api resources
 resources = {"/mai": mai.handler,
              "/events": events.handler,
