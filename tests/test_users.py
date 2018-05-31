@@ -11,14 +11,7 @@ rds_host = rds_config.db_host
 name = rds_config.db_username
 password = rds_config.db_password
 db_name = rds_config.db_name
-
-# connect to database
-try:
-    connection = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
-except pymysql.err.Error as ex:
-    template = "ERROR: {0} - Could not connect to MySql instance \n{1!r}"
-    message = template.format(type(ex).__name__, ex.args)
-    sys.exit()
+connection = None
 
 # resource settings
 path = 'users'
@@ -26,6 +19,21 @@ context = None
 
 
 class TestUsers(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        global connection
+        # connect to database
+        try:
+            connection = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
+        except pymysql.err.Error as ex:
+            template = "ERROR: {0} - Could not connect to MySql instance \n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print(message)
+            sys.exit()
+
+    @classmethod
+    def tearDownClass(cls):
+        connection.close()
 
     def setUp(self):
         self.event = Event()

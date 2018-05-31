@@ -1,7 +1,6 @@
 from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
-import pymysql
 
 # Initialize File variables
 __first_name = ''
@@ -34,7 +33,6 @@ def post(request, connection):
     set_variables(request)
 
     db_add_user = get_add_user_command(connection)
-    print(db_add_user)
 
     # add new user to the database
     with connection.cursor() as cur:
