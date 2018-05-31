@@ -33,7 +33,8 @@ resources = {"/mai": mai.handler,
              "/events": events.handler,
              "/missions": missions.handler,
              "/plan": plan.handler,
-             "/users": users.handler}
+             "/users": users.handler,
+             "/friends": friends.handler}
 
 
 # main handler for any API call

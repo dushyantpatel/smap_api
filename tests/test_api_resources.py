@@ -6,12 +6,12 @@ from gateway import main_handler
 
 context = ''  # sample context to pass to the api
 methods = ['GET', 'POST', 'PUT', 'DELETE', 'OTHER']  # list of all possible methods
-resources = ['mai', 'events', 'missions', 'plan', 'users', 'other']  # list of all possible resources
+resources = ['mai', 'events', 'missions', 'plan', 'users', 'friends' 'other']  # list of all possible resources
 message_template = '{0}.{1} has been called'  # sample message template to check for in response body
 
 # This list is parallel to the resources list.
 # It will tell us how many methods to check. Ex. first 4 methods
-num_valid_methods = [1, 4, 4, 4, 3, 0]
+num_valid_methods = [1, 4, 4, 4, 3, 3, 0]
 
 
 class TestAPIResources(unittest.TestCase):
@@ -55,6 +55,9 @@ class TestAPIResources(unittest.TestCase):
 
     def test_users(self):
         self.run_tests(4)
+
+    def test_friends(self):
+        self.run_tests(5)
 
 
 if __name__ == '__main__':
