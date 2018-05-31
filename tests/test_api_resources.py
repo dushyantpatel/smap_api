@@ -41,23 +41,23 @@ class TestAPIResources(unittest.TestCase):
             self.assertEqual(res['statusCode'], 501)
             self.assertEqual(res['body'], str(None))
 
-    def test_mai(self):
-        self.run_tests(0)
-
-    def test_events(self):
-        self.run_tests(1)
-
-    def test_missions(self):
-        self.run_tests(2)
-
-    def test_plan(self):
-        self.run_tests(3)
-
-    def test_users(self):
-        self.run_tests(4)
-
-    def test_friends(self):
-        self.run_tests(5)
+    # def test_mai(self):
+    #     self.run_tests(0)
+    #
+    # def test_events(self):
+    #     self.run_tests(1)
+    #
+    # def test_missions(self):
+    #     self.run_tests(2)
+    #
+    # def test_plan(self):
+    #     self.run_tests(3)
+    #
+    # def test_users(self):
+    #     self.run_tests(4)
+    #
+    # def test_friends(self):
+    #     self.run_tests(5)
 
 
 if __name__ == '__main__':
