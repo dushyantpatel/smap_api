@@ -23,6 +23,7 @@ __country = ''
 __latitude = ''
 __longitude = ''
 __location = None
+__popularity = 0
 
 
 # NOTE: this function must return a dictionary type
@@ -71,7 +72,7 @@ def post(request, connection):
 
         #post the edited information of the event onto the data_base
         command_add_event = query_strings.add_event(__name, __event_url, __category, __description, __event_date,
-                                                    __start_time, __end_time,__points, location_id)
+                                                    __start_time, __end_time,__points,__popularity,location_id)
         with connection.cursor() as cur:
             cur.execute(command_add_event)
             connection.commit()
@@ -102,7 +103,7 @@ def get_loc_id(command_add_loc, command_get_Loc, connection):
 
 def set_event_vars(event):
     global __name,  __event_url, __category, __is_public, __event_date, __is_free, \
-     __start_time, __end_time, __points, __location, __description, __host, __image
+     __start_time, __end_time, __points, __location, __description, __host, __image, __popularity
     #checking if required variables are correct
     try:
         __name = event['name']
@@ -115,6 +116,7 @@ def set_event_vars(event):
         __points = event['points']
         __event_url = event['event_url']
         __location = event['location']
+        __popularity = event['popularity']
         set_loc_vars(event)
     #raise except if they're not that and terminate
     except KeyError:

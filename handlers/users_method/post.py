@@ -20,6 +20,7 @@ __latitude = 0
 __longitude = 0
 
 
+
 # NOTE: this function must return a dictionary type
 def post(request, connection):
     """

@@ -64,7 +64,7 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 search_all_events = 'SELECT * FROM event;'
 
 # search specific event knowing the event name
-search_for_event = 'SELECT event_id FROM event WHERE name="{0}";'
+search_for_event_name = 'SELECT event_id FROM event WHERE name="{0}";'
 
 #-------------------------------------------------------------------------------
 # Event Linking Table
