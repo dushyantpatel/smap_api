@@ -71,7 +71,7 @@ search_for_event_name = 'SELECT event_id FROM event WHERE name="{0}";'
 #-------------------------------------------------------------------------------
 # link specific event to specific user
 link_event_history = 'INSERT INTO eventHistory (is_going, user, event) VALUES ("{0}",' \
-                     + search_for_user + ',' + search_for_event + ');'
+                     + search_for_user + ',' + search_for_event_name + ');'
 
 #-------------------------------------------------------------------------------
 # Missions
