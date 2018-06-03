@@ -51,7 +51,7 @@ def post(request, connection):
                                      'event_url' : __event_url, 'start_time' : __start_time,
                                      'end_time' : __end_time, 'free_event' : __is_free,
                                      'category' : __category, 'location': __location, 'points': __points,
-                                     'is_public' : __is_public, 'event_data' : __event_date})
+                                     'is_public' : __is_public, 'event_data' : __event_date, 'popularity': __popularity})
 
 
     for event in real_Events['edited']:
