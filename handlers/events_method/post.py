@@ -1,6 +1,5 @@
 # TODO - implementation
 from response_objects.response_body import Body
-import pymysql
 from database_queries import *
 from exceptions import *
 
@@ -28,7 +27,7 @@ __popularity = 0
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-    events = request['Events']
+    events = request['events']
     real_Events = {}
     real_Events["edited"] = []
 
@@ -104,6 +103,7 @@ def get_loc_id(command_add_loc, command_get_Loc, connection):
 def set_event_vars(event):
     global __name,  __event_url, __category, __is_public, __event_date, __is_free, \
      __start_time, __end_time, __points, __location, __description, __host, __image, __popularity
+
     #checking if required variables are correct
     try:
         __name = event['name']
