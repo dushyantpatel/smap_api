@@ -20,9 +20,12 @@ def get(request, connection):
     elif __friend_status == 'requests':
         __link = query_strings.search_requests_sent[__user]
 
-    with connection.cursor() as cur:
-        cur.execute(__link)
-        li = cur.fetchall()
+    try:
+        with connection.cursor() as cur:
+            cur.execute(__link)
+            li = cur.fetchall()
+    except pymysql.err.IntegrityError:
+        raise HTTP_204_Exception('User not found')
 
     new_list = []
     for item in li:
