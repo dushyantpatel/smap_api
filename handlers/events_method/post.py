@@ -58,16 +58,13 @@ def post(request, connection):
 
         set_edited_location(event['location'])
 
-        # using the query strings to search for location and adding loction if it doesn't exist
-        command_get_Loc = query_strings.search_location.format(__street, __city, __state, __zip, __country, __latitude, __longitude)
-
-
-
+        # using the query strings to search for location and adding location if it doesn't exist
+        command_get_loc = query_strings.search_for_location.format(__street, __city, __zip)
         # using the query string to add loction  if it wasn't found.
         command_add_loc = query_strings.add_location.format(__street, __city, __state, __zip, __country, __latitude, __longitude)
 
         #Check Get_Loc first to see if id is already tehre so we don't duplicate ids
-        location_id = get_loc_id(command_add_loc, command_get_Loc, connection)
+        location_id = get_loc_id(command_add_loc, command_get_loc, connection)
 
         #post the edited information of the event onto the data_base
         command_add_event = query_strings.add_event(__name, __event_url, __category, __description, __event_date,
@@ -82,18 +79,19 @@ def post(request, connection):
     return body
 
 
-def get_loc_id(command_add_loc, command_get_Loc, connection):
+def get_loc_id(command_add_loc, command_get_loc, connection):
     #checking if location_id is already within the data_base
     with connection.cursor() as cur:
-        cur.execute(command_get_Loc)
+        cur.execute(command_get_loc)
         location_id = cur.fetchone()
 
         if location_id is None:
             #if not push the new location infomation on the database to generate a location_id
             cur.execute(command_add_loc)
             connection.commit()
-            cur.execute(command_add_loc)
+            cur.execute(command_get_loc)
             location_id = cur.fetchone()[0]
+            print(location_id)
         else:
             #else just get already existing location_id
             location_id = cur.fetchone()[0]
@@ -107,16 +105,13 @@ def set_event_vars(event):
     #checking if required variables are correct
     try:
         __name = event['name']
-        __image = event['logo_url']
-        __category = event['category']
         __is_public = event['is_public']
         __event_date = event['event_data']
         __start_time = event['start_time']
         __end_time = event['end_time']
         __points = event['points']
-        __event_url = event['event_url']
         __location = event['location']
-        __popularity = event['popularity']
+        print("Everything but location is fine")
         set_loc_vars(event)
     #raise except if they're not that and terminate
     except KeyError:
@@ -140,31 +135,23 @@ def set_loc_vars(event):
     # Checking required variables within location of events
     global __state,__country,__latitude,__longitude,__zip,__street,__city
     try:
-        __state = event['location']['region']
+        __state = event['location']['state']
+        print("passed state")
         __country = event['location']['country']
         __latitude = event['location']['latitude']
         __longitude = event['location']['longitude']
+        __zip = event['location']['zip']
+        __street = event['location']['street']
+        __city = event['location']['city']
+
     # exectoion case of required variables is not there
     except KeyError:
+        print("failed in location")
         raise HTTP_204_Exception("Missing a required field")
     # Checking optional variables within location of events
     # If not there set field to N/A
     # check zip
-    try:
-        __zip = event['location']['postal_code']
-    except KeyError:
-        __zip = ""
     # Check street address
-    try:
-        __street = event['location']['street']
-    except KeyError:
-        __street = ""
-    # check city
-    try:
-        __city = event['location']['city']
-    except KeyError:
-        __city = ""
-
 def set_edited_location(location):
     #setting edited location
     global __state,__country,__latitude,__longitude,__zip,__street,__city

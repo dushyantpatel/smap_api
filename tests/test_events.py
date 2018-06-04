@@ -14,10 +14,10 @@ db_name = rds_config.db_name
 connection = None
 
 # resource settings
-path = 'users'
+path = 'events'
 context = None
 
-class TestUsers(unittest.TestCase):
+class TestEvents(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         global connection
@@ -42,36 +42,40 @@ class TestUsers(unittest.TestCase):
     def tearDown(self):
         # clean up the database
         with connection.cursor() as cur:
-            cur.execute('SELECT * FROM user WHERE email="test.email@smap.com"')
+            cur.execute('SELECT * FROM event WHERE name="Best Event"')
             li = cur.fetchall()
             for row in li:
-                cur.execute('DELETE FROM user WHERE user_id=' + str(row[0]))
+                cur.execute('DELETE FROM event WHERE evnent_id=' + str(row[0]))
             connection.commit()
 
     def test_add_new_event(self):
-        self.req_body['name'] =  'Best Event'
-        self.req_body['logo_url'] = "https://smap.com"
-        self.req_body['category'] = 'Music'
-        self.req_body['is_public'] = True
-        self.req_body['event_data'] = '2018-06-15'
-        self.req_body['start_time'] = '15:30:00'
-        self.req_body['end_time'] = '20:30:00'
-        self.req_body['points'] = '9000'
-        self.req_body['event_url'] = "https://whatsamattau.com"
-        self.req_body['street'] = 'Lame St.'
-        self.req_body['state'] = 'CA'
-        self.req_body['country'] = 'United States'
-        self.req_body['zip'] = '92036'
-        self.req_body['latitude'] = '36.7894'
-        self.req_body['longitude'] = '420.786'
-        self.req_body['location'] = {"street": self.req_body['street'], "state": self.req_body['state'], \
-                                     "country": self.req_body['country'], "zip": self.req_body['zip'], \
-                                     'latitude':self.req_body['latitude'], 'longitude': self.req_body['location']}
-        self.req_body['popularity'] = 9000
+        self.event.setHttpMethod('POST')
+        test_dict = {}
+        test_dict['events'] = []
+        name =  'Best Event'
+        type = 'Music'
+        is_public = True
+        event_date = '2018-06-15'
+        start_time = '15:30:00'
+        end_time = '20:30:00'
+        points = 9000
+        is_free = False
+        location = {"street": 'Lame St.', "state": 'CA', "city": 'San Diego',\
+                                     "country": 'United States', "zip": 92364, \
+                                     'latitude': 36.7894, 'longitude': 420.786}
+
+        test_dict['events'].append({'name' : name, 'start_time' : start_time,
+                                     'end_time' : end_time, 'free_event' : is_free,
+                                     'location' : location, 'points': points, 'is_public': is_public,
+                                     'event_data': event_date})
+        self.req_body['events'] = test_dict['events']
         self.event.setBody(str(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = response['body']
         status_code = response['statusCode']
+        header = response['headers']
+        print(header['message'])
+        print(header['details'])
 
         # check for correct status code
         self.assertEqual(201, status_code)
