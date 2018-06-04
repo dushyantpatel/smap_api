@@ -86,6 +86,9 @@ search_for_event_city = 'SELECT event_id FROM event WHERE city="{0}";'
 # search specific event knowing the event type
 search_for_event_type = 'SELECT event_id FROM event WHERE type="{0}";'
 
+# find the count of each response for an event
+count_event_responses = 'SELECT ' + search_for_event_city + ', COUNT(*) FROM eventHistory GROUP BY is_going;'
+
 # -------------------------------------------------------------------------------
 # Event Linking Table
 # -------------------------------------------------------------------------------
