@@ -38,8 +38,14 @@ search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}";'
 # search specific user knowing their email
 search_for_user_display_name = 'SELECT user_id FROM user WHERE display_name="{0}";'
 
+# update the user's display name
+update_display_name = 'UPDATE user SET display_name="{0}" WHERE email="{1}";'
+
 # update the user's profile pic
 update_profile_pic = 'UPDATE user SET profile_pic="{0}" WHERE email="{1}";'
+
+# update the user's email
+update_email = 'UPDATE user SET email="{0}" WHERE email="{1}";'
 
 # update the user's birthday
 update_birthday = 'UPDATE user SET birthday="{0}" WHERE email="{1}";'
@@ -90,8 +96,7 @@ add_event = 'INSERT INTO event (name, image, type, host, description, location, 
 
 # add a brand new event with only required fields and knowing the address
 add_event_required = 'INSERT INTO event (name, type, location, event_date, event_start, event_end, ' \
-                     'is_public, is_free, points) VALUES ("{0}", "{1}",' + '(' + search_for_location \
-                     + '), "{5}", "{6}", "{7}", {8}, {9}, {10});'
+                     'is_public, is_free, points) VALUES ("{0}", "{1}", {2}, "{3}", "{4}", "{5}", {6}, {7}, {8});'
 
 # search all events
 search_all_events = 'SELECT event_id FROM event;'
