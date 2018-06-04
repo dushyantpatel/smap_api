@@ -14,7 +14,7 @@ def post(request, connection):
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
 
-    __link = query_strings.link_friend.format[__second_user, __first_user, 'NULL', __first_user, __second_user, 'NULL']
+    __link = query_strings.friend_request_accepted.format[__second_user, __first_user, 'NULL', __first_user, __second_user, 'NULL']
 
     try:
         with connection.cursor() as cur:

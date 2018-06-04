@@ -46,9 +46,9 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
                    + search_for_user_email + ',' + search_for_user_email + ', "{2}");'
 
 # link two friends when user accepts friend request
-link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' ; \
-               INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-              + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
+friend_request_accepted = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' ; ' \
+                          'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
+                          + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
 # delete from the table if friend request is rejected
 friend_request_rejected = 'DELETE FROM friendsList WHERE user1=' + search_for_user_email + ' ' \
