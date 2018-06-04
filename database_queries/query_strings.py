@@ -32,20 +32,20 @@ add_user_required = 'INSERT INTO user (display_name, email, first_name, last_nam
 # search all users
 search_all_users = 'SELECT * FROM user;'
 
-# search specific user knowing their display_name
-search_for_user = 'SELECT user_id FROM user WHERE display_name="{0}";'
+# search specific user knowing their email
+search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}";'
 
 #-------------------------------------------------------------------------------
 # Friends List
 #-------------------------------------------------------------------------------
 # add, block, or mark a friend request as pending
 link_friend = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-              + search_for_user + ',' + search_for_user + ', "{2}");' \
+              + search_for_user_email + ',' + search_for_user_email + ', "{2}");' \
               + 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-              + search_for_user + ',' + search_for_user + ', "{5}");'
+              + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
 # search friends list of a specific user
-search_friends = 'SELECT * FROM friendsList WHERE user1=' + search_for_user + ';'
+search_friends = 'SELECT * FROM friendsList WHERE user1=' + search_for_user_email + ';'
 
 #-------------------------------------------------------------------------------
 # Events
@@ -53,7 +53,7 @@ search_friends = 'SELECT * FROM friendsList WHERE user1=' + search_for_user + ';
 # add a brand new event with all information
 add_event = 'INSERT INTO event (name, image, type, host, description, location, event_date,' \
             ' event_start, event_end, is_public, is_free, points) VALUES ("{0}", "{1}", "{2}", ' \
-            + search_for_user + ', "{6}",' + search_for_location + ', "{10}", "{11}", "{12}", {13}, {14}, {15});'
+            + search_for_user_email + ', "{6}",' + search_for_location + ', "{10}", "{11}", "{12}", {13}, {14}, {15});'
 
 # add a brand new event with only required fields and knowing the address
 add_event_required = 'INSERT INTO event (name, type, location, event_date, event_start, event_end, ' \
@@ -63,7 +63,8 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 # search all events
 search_all_events = 'SELECT * FROM event;'
 
-# search specific event knowing the event name
+
+# search specific event knowing the event city
 search_for_event_city = 'SELECT event_id FROM event WHERE city="{0}";'
 
 #-------------------------------------------------------------------------------
@@ -96,4 +97,4 @@ search_for_mission = 'SELECT mission_id FROM mission WHERE name="{0}"'
 #-------------------------------------------------------------------------------
 # link specific mission to specific user
 link_mission_history = 'INSERT INTO missionHistory (is_going, user, mission) VALUES ("{0}",' \
-                       + search_for_user + ',' + search_for_mission + ');'
+                       + search_for_user_email + ',' + search_for_mission + ');'

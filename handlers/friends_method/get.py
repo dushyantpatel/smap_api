@@ -1,23 +1,29 @@
-# TODO - implementation
 from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
+import pymysql
 
 # NOTE: this function must return a dictionary type
 def get(request, connection):
-    # connection = pymysql.connect() # DELETE this after done with coding
+    #connection = pymysql.connect() # DELETE this after done with coding
+
     try:
-        first_user = request['user_1']
+        __user = request['user']
+        __friend_status = request['status']
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
-    try:
-        link = query_strings.search_friends.format[user]
-    except:
-        raise HTTP_400_Exception('Invalid user(s)')
+
+    __link = query_strings.search_friends.format[__user]
 
     with connection.cursor() as cur:
-        cur.execute(link)
-        connection.commit()
+        cur.execute(__link)
+        li = cur.fetchall()
+
+    new_list = []
+    for item in li:
+        new_list.append(list(item))
+
     body = Body()
+    body.addParameter('data', new_list)
     body.addParameter('message', 'friends.get has been called')
     return body
