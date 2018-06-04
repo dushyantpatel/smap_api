@@ -14,10 +14,10 @@ db_name = rds_config.db_name
 connection = None
 
 # resource settings
-path = 'users'
+path = 'events'
 context = None
 
-class TestUsers(unittest.TestCase):
+class TestEvents(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         global connection
@@ -42,10 +42,10 @@ class TestUsers(unittest.TestCase):
     def tearDown(self):
         # clean up the database
         with connection.cursor() as cur:
-            cur.execute('SELECT * FROM user WHERE email="test.email@smap.com"')
+            cur.execute('SELECT * FROM event WHERE name="Best Event"')
             li = cur.fetchall()
             for row in li:
-                cur.execute('DELETE FROM user WHERE user_id=' + str(row[0]))
+                cur.execute('DELETE FROM event WHERE name=' + str(row[0]))
             connection.commit()
 
     def test_add_new_event(self):
