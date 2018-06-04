@@ -35,17 +35,32 @@ search_all_users = 'SELECT * FROM user;'
 # search specific user knowing their email
 search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}";'
 
+# search specific user knowing their email
+search_for_user_display_name = 'SELECT user_id FROM user WHERE display_name="{0}";'
+
 #-------------------------------------------------------------------------------
 # Friends List
 #-------------------------------------------------------------------------------
-# add, block, or mark a friend request as pending
-link_friend = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-              + search_for_user_email + ',' + search_for_user_email + ', "{2}");' \
+# friend request sent from a specific user
+friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
+                   + search_for_user_email + ',' + search_for_user_email + ', "{2}");'
+
+# link two friends when user accepts friend request
+link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' + ';'
               + 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
               + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
+# delete from the table if friend request is rejected
+friend_request_rejected = ''
+
 # search friends list of a specific user
-search_friends = 'SELECT * FROM friendsList WHERE user1=' + search_for_user_email + ';'
+search_friends = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' AND is_friend="{1}";'
+
+# search all pending friend requests of a specific user
+search_pending_requests = 'SELECT user1 FROM friendsList WHERE user2=' + search_for_user_email + ' + ' AND is_friend="{1}";'
+
+# search all friend requests a user has sent
+search_requests_sent = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' + ' AND is_friend="{1}";'
 
 #-------------------------------------------------------------------------------
 # Events
@@ -61,10 +76,13 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
                      + ', "{5}", "{6}", "{7}", {8}, {9}, {10});'
 
 # search all events
-search_all_events = 'SELECT * FROM event;'
+search_all_events = 'SELECT event_id FROM event;'
 
 # search specific event knowing the event city
 search_for_event_city = 'SELECT event_id FROM event WHERE city="{0}";'
+
+# search specific event knowing the event type
+search_for_event_type = 'SELECT event_id FROM event WHERE type="{0}";'
 
 #-------------------------------------------------------------------------------
 # Event Linking Table
