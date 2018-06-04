@@ -64,14 +64,14 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 search_all_events = 'SELECT * FROM event;'
 
 # search specific event knowing the event name
-search_for_event_name = 'SELECT event_id FROM event WHERE name="{0}";'
+search_for_event_city = 'SELECT event_id FROM event WHERE city="{0}";'
 
 #-------------------------------------------------------------------------------
 # Event Linking Table
 #-------------------------------------------------------------------------------
 # link specific event to specific user
 link_event_history = 'INSERT INTO eventHistory (is_going, user, event) VALUES ("{0}",' \
-                     + search_for_user + ',' + search_for_event_name + ');'
+                     + search_for_user + ',' + search_for_event_city + ');'
 
 #-------------------------------------------------------------------------------
 # Missions

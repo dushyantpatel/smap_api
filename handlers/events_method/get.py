@@ -15,6 +15,7 @@ body.addPara('data', var_list)
 # NOTE: this function must return a dictionary type
 def get(request, connection):
     """
+    Maybe for later implenting
     #required variable
     zip = None
     #optional variables
@@ -35,9 +36,15 @@ def get(request, connection):
             pass
         if catagory == None:
    """
-    #Get all events from the data_base
+    #Get all events from the data_base within the users city
+    try:
+        __city = request['city']
+    except KeyError:
+        raise HTTP_204_Exception("Missing a required field")
+    __city = __city.lower()
+    search_city = query_strings.search_for_event_city.format(__city)
     with connection.cursor() as cur:
-        cur.execute(query_strings.search_all_events)
+        cur.execute(search_city)
         __events = cur.fetchall()
     body = Body()
     body.addParameter('events', __events)
