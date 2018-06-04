@@ -70,7 +70,7 @@ def post(request, connection):
         location_id = get_loc_id(command_add_loc, command_get_Loc, connection)
 
         #post the edited information of the event onto the data_base
-        command_add_event = query_strings.add_event(__name, __event_url, __category, __description, __event_date,
+        command_add_event = query_strings.add_event.format(__name, __event_url, __category, __description, __event_date,
                                                     __start_time, __end_time,__points,__popularity,location_id)
         with connection.cursor() as cur:
             cur.execute(command_add_event)
