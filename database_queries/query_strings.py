@@ -49,10 +49,6 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
 <<<<<<< HEAD
 link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' ; \
                INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-=======
-link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ';' \
-              + 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
->>>>>>> 09c890529e960aa049ef0c1375fe189973392973
               + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
 # delete from the table if friend request is rejected
