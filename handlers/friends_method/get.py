@@ -3,9 +3,9 @@ from database_queries import *
 from exceptions import *
 import pymysql
 
+
 # NOTE: this function must return a dictionary type
 def get(request, connection):
-    #connection = pymysql.connect() # DELETE this after done with coding
 
     try:
         __user = request['user']
@@ -13,22 +13,21 @@ def get(request, connection):
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
 
-    try:
-        if __friend_status == 'friends':
-            __link = query_strings.search_friends.format[__user]
-        elif __friend_status == 'responses':
-            __link = query_strings.search_pending_requests[__user]
-        elif __friend_status == 'requests':
-            __link = query_strings.search_requests_sent[__user]
-    except pymysql.err.IntegrityError:
-        raise HTTP_204_Exception('Friends not found')
+    if __friend_status == 'friends':
+        __link = query_strings.search_friends.format(__user)
+    elif __friend_status == 'responses':
+        __link = query_strings.search_pending_requests.format(__user)
+    elif __friend_status == 'requests':
+        __link = query_strings.search_requests_sent.format(__user)
+    else:
+        raise HTTP_400_Exception('Invalid friend status')
 
-    try:
-        with connection.cursor() as cur:
+    with connection.cursor() as cur:
+        try:
             cur.execute(__link)
             li = cur.fetchall()
-    except pymysql.err.IntegrityError:
-        raise HTTP_204_Exception('User not found')
+        except pymysql.err.IntegrityError:
+            raise HTTP_204_Exception('User not found')
 
     new_list = []
     for item in li:

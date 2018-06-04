@@ -64,10 +64,10 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
 # link two friends when user accepts friend request
 # update user1 --> user2 to be a friend
 # add a new row for user2 --> user1
-friend_request_accepted = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + '(' + search_for_user_email + ') ' \
+friend_request_accepted = 'UPDATE friendsList SET is_friend="yes" WHERE user1=' + '(' + search_for_user_email + ') ' \
                           'AND user2=' + '(' + search_for_user_email + ');' \
                           'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
-                          + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
+                          + search_for_user_email + '),(' + search_for_user_email + '), "yes");'
 
 # delete from the table if friend request is rejected
 friend_request_rejected = 'DELETE FROM friendsList WHERE user1=' + '(' + search_for_user_email + ') ' \
@@ -75,15 +75,15 @@ friend_request_rejected = 'DELETE FROM friendsList WHERE user1=' + '(' + search_
 
 # search friends list of a specific user
 search_friends = 'SELECT user2 FROM friendsList WHERE user1=' + '(' + search_for_user_email + ')' \
-                 + ' AND is_friend="{1}";'
+                 + ' AND is_friend="yes";'
 
 # search all pending friend requests of a specific user
 search_pending_requests = 'SELECT user1 FROM friendsList WHERE user2=' + '(' + search_for_user_email + ') ' \
-                          'AND is_friend="{1}";'
+                          'AND is_friend="NULL";'
 
 # search all friend requests a user has sent
 search_requests_sent = 'SELECT user2 FROM friendsList WHERE user1=' + '(' + search_for_user_email + ') ' \
-                       'AND is_friend="{1}";'
+                       'AND is_friend="NULL";'
 
 # -------------------------------------------------------------------------------
 # Events
