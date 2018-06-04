@@ -51,7 +51,8 @@ link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for
               + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
 # delete from the table if friend request is rejected
-friend_request_rejected = ''
+friend_request_rejected = 'DELETE FROM friendsList WHERE user1=' + search_for_user_email + ' ' \
+                          'AND user2=' + search_for_user_email + ';'
 
 # search friends list of a specific user
 search_friends = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' AND is_friend="{1}";'
