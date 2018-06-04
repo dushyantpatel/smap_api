@@ -59,12 +59,12 @@ def post(request, connection):
         set_edited_location(event['location'])
 
         # using the query strings to search for location and adding loction if it doesn't exist
-        command_get_Loc = query_strings.search_location(__street, __city, __state, __zip, __country, __latitude, __longitude)
+        command_get_Loc = query_strings.search_location.format(__street, __city, __state, __zip, __country, __latitude, __longitude)
 
 
 
         # using the query string to add loction  if it wasn't found.
-        command_add_loc = query_strings.add_location(__street, __city, __state, __zip, __country, __latitude, __longitude)
+        command_add_loc = query_strings.add_location.format(__street, __city, __state, __zip, __country, __latitude, __longitude)
 
         #Check Get_Loc first to see if id is already tehre so we don't duplicate ids
         location_id = get_loc_id(command_add_loc, command_get_Loc, connection)
@@ -165,14 +165,12 @@ def set_loc_vars(event):
     except KeyError:
         __city = ""
 
-
-
 def set_edited_location(location):
     #setting edited location
     global __state,__country,__latitude,__longitude,__zip,__street,__city
     __street = location['street']
     __state = location['state']
-    __city = location['city']
+    __city = location['city'].lower()
     __longitude = location['longitude']
     __zip = location['zip']
     __latitude = location['latitude']

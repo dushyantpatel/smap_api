@@ -46,8 +46,13 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
                    + search_for_user_email + ',' + search_for_user_email + ', "{2}");'
 
 # link two friends when user accepts friend request
+<<<<<<< HEAD
 link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' ; \
                INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
+=======
+link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ';' \
+              + 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
+>>>>>>> 09c890529e960aa049ef0c1375fe189973392973
               + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
 # delete from the table if friend request is rejected
@@ -77,6 +82,7 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 
 # search all events
 search_all_events = 'SELECT event_id FROM event;'
+
 
 # search specific event knowing the event city
 search_for_event_city = 'SELECT event_id FROM event WHERE city="{0}";'

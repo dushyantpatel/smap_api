@@ -6,7 +6,7 @@ import pymysql
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-    # connection = pymysql.connect() # DELETE this after done with coding
+     # connection = pymysql.connect() # DELETE this after done with coding
 
     try:
         __first_user = request['user_1']
@@ -16,10 +16,12 @@ def post(request, connection):
 
     __link = query_strings.link_friend.format[__second_user, __first_user, 'NULL', __first_user, __second_user, 'NULL']
 
-    with connection.cursor() as cur:
-        cur.execute(__link)
-        connection.commit()
+    try:
+        with connection.cursor() as cur:
+            cur.execute(__link)
+            connection.commit()
+    except pymysql.err.IntegrityError:
+        raise HTTP_204_Exception('User not found')
 
     body = Body()
-    body.addParameter('message', 'friends.post has been called')
     return body
