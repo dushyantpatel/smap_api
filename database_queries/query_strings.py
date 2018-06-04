@@ -46,7 +46,7 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
                    + search_for_user_email + ',' + search_for_user_email + ', "{2}");'
 
 # link two friends when user accepts friend request
-link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ' + ';'
+link_friend = 'UPDATE friendsList SET is_friend="{0}" WHERE user1=' + search_for_user_email + ';' \
               + 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
               + search_for_user_email + ',' + search_for_user_email + ', "{5}");'
 
@@ -57,10 +57,10 @@ friend_request_rejected = ''
 search_friends = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' AND is_friend="{1}";'
 
 # search all pending friend requests of a specific user
-search_pending_requests = 'SELECT user1 FROM friendsList WHERE user2=' + search_for_user_email + ' + ' AND is_friend="{1}";'
+search_pending_requests = 'SELECT user1 FROM friendsList WHERE user2=' + search_for_user_email + ' AND is_friend="{1}";'
 
 # search all friend requests a user has sent
-search_requests_sent = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' + ' AND is_friend="{1}";'
+search_requests_sent = 'SELECT user2 FROM friendsList WHERE user1=' + search_for_user_email + ' AND is_friend="{1}";'
 
 #-------------------------------------------------------------------------------
 # Events
@@ -90,7 +90,7 @@ search_for_event_type = 'SELECT event_id FROM event WHERE type="{0}";'
 #-------------------------------------------------------------------------------
 # link specific event to specific user
 link_event_history = 'INSERT INTO eventHistory (is_going, user, event) VALUES ("{0}",' \
-                     + search_for_user + ',' + search_for_event_city + ');'
+                     + search_for_user_email + ',' + search_for_event_city + ');'
 
 #-------------------------------------------------------------------------------
 # Missions
