@@ -13,12 +13,15 @@ def get(request, connection):
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
 
-    if __friend_status == 'friends':
-        __link = query_strings.search_friends.format[__user]
-    elif __friend_status == 'responses':
-        __link = query_strings.search_pending_requests[__user]
-    elif __friend_status == 'requests':
-        __link = query_strings.search_requests_sent[__user]
+    try:
+        if __friend_status == 'friends':
+            __link = query_strings.search_friends.format[__user]
+        elif __friend_status == 'responses':
+            __link = query_strings.search_pending_requests[__user]
+        elif __friend_status == 'requests':
+            __link = query_strings.search_requests_sent[__user]
+    except pymysql.err.IntegrityError:
+        raise HTTP_204_Exception('Friends not found')
 
     try:
         with connection.cursor() as cur:
