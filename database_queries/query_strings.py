@@ -33,7 +33,7 @@ add_user_required = 'INSERT INTO user (display_name, email, first_name, last_nam
 search_all_users = 'SELECT user_id FROM user;'
 
 # search specific user knowing their email
-search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}";'
+search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}"'
 
 # search specific user knowing their email
 search_for_user_display_name = 'SELECT user_id FROM user WHERE display_name="{0}";'
@@ -66,7 +66,7 @@ friend_requested = 'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' 
 # add a new row for user2 --> user1
 friend_request_accepted = 'UPDATE friendsList SET is_friend="yes" WHERE user1=' + '(' + search_for_user_email + ') ' \
                           'AND user2=' + '(' + search_for_user_email + ');' \
-                          'INSERT INTO friendsList (user1, user2, is_friend) VALUES (' \
+                          'INSERT INTO friendsList (user1, user2, is_friend) VALUES ((' \
                           + search_for_user_email + '),(' + search_for_user_email + '), "yes");'
 
 # delete from the table if friend request is rejected
