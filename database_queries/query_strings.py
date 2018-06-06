@@ -11,6 +11,9 @@ add_location = 'INSERT INTO location (street, city, state, zip, country, latitud
 # search all locations
 search_all_locations = 'SELECT location_id FROM location;'
 
+# search all fields from location
+search_all_fields_location = 'SELECT * FROM location WHERE location_id={}'
+
 # search specific location knowing the street, city, and zip
 search_for_location = 'SELECT location_id FROM location WHERE street="{0}" AND city="{1}" AND zip={2};'
 
@@ -31,6 +34,9 @@ add_user_required = 'INSERT INTO user (display_name, email, first_name, last_nam
 
 # search all users
 search_all_users = 'SELECT user_id FROM user;'
+
+# search all user details by email
+search_all_user_details_by_email = 'SELECT * FROM user WHERE email = "{}"'
 
 # search specific user knowing their email
 search_for_user_email = 'SELECT user_id FROM user WHERE email="{0}"'
