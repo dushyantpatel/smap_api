@@ -33,10 +33,9 @@ def checkRequiredKeys(mission):
         except KeyError:
             error = True
             missing_keys.append(key)
-            raise HTTP_204_Exception("Missing field [" + key + "] which is a required field")
 
     if error:
-        raise HTTP_204_Exception("Missing field [" + str(missing_keys) + "] which is a required field")
+        raise HTTP_400_Exception("Missing field [" + str(missing_keys) + "] which is a required field")
 def set_varaibles(request):
     return
 

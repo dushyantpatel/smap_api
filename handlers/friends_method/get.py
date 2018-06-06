@@ -9,9 +9,13 @@ def get(request, connection):
 
     try:
         __user = request['user']
+    except KeyError:
+        raise HTTP_400_Exception('Missing required field : user')
+
+    try:
         __friend_status = request['status']
     except KeyError:
-        raise HTTP_400_Exception('Missing required field(s)')
+        raise HTTP_400_Exception('Missing required field : status')
 
     if __friend_status == 'friends':
         __link = query_strings.search_friends.format(__user)
