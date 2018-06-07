@@ -2,8 +2,6 @@ from response_objects import *
 from handlers.users_method import *
 from exceptions import *
 import ast
-import json
-
 
 # dictionary of valid methods for users
 methods = {'GET': get,
