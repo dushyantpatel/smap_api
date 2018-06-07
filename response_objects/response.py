@@ -20,22 +20,31 @@ class Response:
     def setStatusCode(self, statusCode):
         if isinstance(statusCode, int):
             self.__statusCode = statusCode
+        else:
+            raise Exception("The status code must be of type int")
 
     # function to set the headers in the response
     # NOTE: headers must be of type dice
     def setHeaders(self, headers):
         if isinstance(headers, dict):
             self.__headers = headers
+        elif headers is not None:
+            raise Exception("The headers must be of type dict")
 
     # function to set the body in the response
     def setBody(self, body):
-        self.__body = body
+        if isinstance(body, dict):
+            self.__body = body
+        elif body is not None:
+            raise Exception("The body must be of type dict")
 
     # function to set the isBase64Encoded in the response
     # NOTE: isBase64Encoded must be of type bool
     def setIsBase64Encoded(self, isBase64Encoded):
         if isinstance(isBase64Encoded, bool):
             self.__isBase64Encoded = isBase64Encoded
+        else:
+            raise Exception("The isBase64Encoded must be of type bool")
 
     # function to generate the response object
     def getResponse(self):
