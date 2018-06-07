@@ -55,4 +55,4 @@ def handler(event, connection):
     header.addParameter('details', details)
     res = Response(status_code, header.getHeader(), res_body.getBody())
 
-    return json.dumps(res.getResponse(), indent=4)
+    return res.getResponse()
