@@ -60,9 +60,8 @@ class TestUsers(unittest.TestCase):
         self.event.setBody(str(self.req_body))
 
         response = main_handler(self.event.getEvent(), context)
-        response = json.loads(response)
 
-        resp_body = response['body']
+        resp_body = json.loads(response['body'])
         status_code = response['statusCode']
 
         # check for correct status code
