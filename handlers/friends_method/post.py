@@ -6,7 +6,6 @@ import pymysql
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
-     # connection = pymysql.connect() # DELETE this after done with coding
 
     try:
         __first_user = request['user_1']
@@ -14,14 +13,14 @@ def post(request, connection):
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
 
-    __link = query_strings.friend_request_accepted.format[__second_user, __first_user, 'NULL', __first_user, __second_user, 'NULL']
-
-    try:
-        with connection.cursor() as cur:
+    # __first_user sends request to __second_user
+    __link = query_strings.friend_requested.format(__first_user, __second_user, 'NULL')
+    with connection.cursor() as cur:
+        try:
             cur.execute(__link)
             connection.commit()
-    except pymysql.err.IntegrityError:
-        raise HTTP_204_Exception('User not found')
+        except pymysql.err.IntegrityError:
+            raise HTTP_204_Exception('User not found')
 
     body = Body()
     return body

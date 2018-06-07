@@ -1,160 +1,102 @@
-# TODO - implementation
 from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
 
-__name = ''
-__event_url = ''
-__category = ''
-__description = ''
-__event_date = ''
-__start_time = ''
-__image = ''
-__end_time = ''
-__points = ''
-__is_public = ''
 __street = ''
-__is_free = 0
 __city = ''
 __state = ''
 __zip = ''
 __country = ''
 __latitude = ''
 __longitude = ''
-__location = None
-__popularity = 0
 
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
     events = request['events']
-    real_Events = {}
-    real_Events["edited"] = []
 
-
-    #{0}:location:street, {1}:location:city,
-    #{2}:location:region, {3}location:postal_code,
-    #{4}:location:country, {5}:location:latitude,
-    #{6}:location:longitude
-
-
-    #{0}: Event name, {1}: Logo_URL, {2}:Type,
-    #{3}: Eventsbrite_URL, {4}:Description
-    #{5}: event_data, {6}: event_start, {7}: event_end
-    #{8}: is_public, {9}:free_event, #{10}:points
-    #{11}: location
+    # verify all events first
+    for event in events:
+        verify_events(event)
 
     for event in events:
 
-        set_event_vars(event)
-        real_Events['edited'].append({'name' : __name,'description' : __description, 'image': __image,
-                                     'event_url' : __event_url, 'start_time' : __start_time,
-                                     'end_time' : __end_time, 'free_event' : __is_free,
-                                     'category' : __category, 'location': __location, 'points': __points,
-                                     'is_public' : __is_public, 'event_data' : __event_date, 'popularity': __popularity})
-
-
-    for event in real_Events['edited']:
-
-        set_edited_location(event['location'])
+        # set global location variables to current location for convenience
+        set_location_variables(event['location'])
 
         # using the query strings to search for location and adding location if it doesn't exist
         command_get_loc = query_strings.search_for_location.format(__street, __city, __zip)
-        # using the query string to add loction  if it wasn't found.
-        command_add_loc = query_strings.add_location.format(__street, __city, __state, __zip, __country, __latitude, __longitude)
 
-        #Check Get_Loc first to see if id is already tehre so we don't duplicate ids
+        # using the query string to add location if it wasn't found.
+        command_add_loc = query_strings.add_location.format(__street, __city, __state, __zip, __country,
+                                                            __latitude, __longitude)
+
+        # Check Get_Loc first to see if id is already there so we don't duplicate ids
         location_id = get_loc_id(command_add_loc, command_get_loc, connection)
 
-        #post the edited information of the event onto the data_base
-        command_add_event = query_strings.add_event.format(__name, __event_url, __category, __description, __event_date,
-                                                    __start_time, __end_time,__points,__popularity,location_id)
+        # post the edited information of the event onto the data_base
+        command_add_event = query_strings.add_event_required.format(event['name'], event['type'], location_id,
+                                                                    event['event_date'], event['start_time'],
+                                                                    event['end_time'], event['is_public'],
+                                                                    event['is_free'], event['points'])
         with connection.cursor() as cur:
             cur.execute(command_add_event)
             connection.commit()
 
-
     body = Body()
-    body.addParameter('message', 'events.post has been called')
     return body
 
 
 def get_loc_id(command_add_loc, command_get_loc, connection):
-    #checking if location_id is already within the data_base
+
+    # checking if location_id is already within the data_base
     with connection.cursor() as cur:
         cur.execute(command_get_loc)
         location_id = cur.fetchone()
 
         if location_id is None:
-            #if not push the new location infomation on the database to generate a location_id
+            # if not push the new location information on the database to generate a location_id
             cur.execute(command_add_loc)
             connection.commit()
             cur.execute(command_get_loc)
             location_id = cur.fetchone()[0]
-            print(location_id)
         else:
-            #else just get already existing location_id
-            location_id = cur.fetchone()[0]
+            # else just get already existing location_id
+            location_id = location_id[0]
     return location_id
 
 
-def set_event_vars(event):
-    global __name,  __event_url, __category, __is_public, __event_date, __is_free, \
-     __start_time, __end_time, __points, __location, __description, __host, __image, __popularity
+def verify_events(event):
 
-    #checking if required variables are correct
-    try:
-        __name = event['name']
-        __is_public = event['is_public']
-        __event_date = event['event_data']
-        __start_time = event['start_time']
-        __end_time = event['end_time']
-        __points = event['points']
-        __location = event['location']
-        print("Everything but location is fine")
-        set_loc_vars(event)
-    #raise except if they're not that and terminate
-    except KeyError:
-        raise HTTP_204_Exception("Missing a required field")
-    __location = {"street": __street, "state": __state, "country": __country,
-                "zip": __zip, 'latitude': __latitude, 'longitude': __longitude,
-                "city": __city}
-    #check if optional variables are there if not make them empty strings
-    try:
-        __description = event['description']
-    except KeyError:
-        __description = ""
-    try:
-        __host = event['host']
-    except KeyError:
-        __host = ""
+    # checking if required variables are correct
+    required_fields = ['name', 'type', 'location', 'event_date', 'start_time',
+                       'end_time', 'is_public', 'is_free', 'points']
+    for field in required_fields:
+        if field not in event:
+            raise HTTP_400_Exception('Missing required field - ' + field + ' in event: ' + str(event))
+
+    # verify the location fields
+    verify_location(event)
+
+    # checking if optional fields exist
+    optional_fields = ['description', 'host']
+    for field in optional_fields:
+        if field not in event:
+            event[field] = ''
 
 
-
-def set_loc_vars(event):
+def verify_location(event):
     # Checking required variables within location of events
-    global __state,__country,__latitude,__longitude,__zip,__street,__city
-    try:
-        __state = event['location']['state']
-        print("passed state")
-        __country = event['location']['country']
-        __latitude = event['location']['latitude']
-        __longitude = event['location']['longitude']
-        __zip = event['location']['zip']
-        __street = event['location']['street']
-        __city = event['location']['city']
+    location = event['location']
+    required_fields = ['street', 'city', 'state', 'zip', 'country', 'latitude', 'longitude']
+    for field in required_fields:
+        if field not in location:
+            raise HTTP_400_Exception('Missing required field - ' + field + ' in location for event - ' + str(event))
 
-    # exectoion case of required variables is not there
-    except KeyError:
-        print("failed in location")
-        raise HTTP_204_Exception("Missing a required field")
-    # Checking optional variables within location of events
-    # If not there set field to N/A
-    # check zip
-    # Check street address
-def set_edited_location(location):
-    #setting edited location
-    global __state,__country,__latitude,__longitude,__zip,__street,__city
+
+def set_location_variables(location):
+    # setting location global variables
+    global __state, __country, __latitude, __longitude, __zip, __street, __city
     __street = location['street']
     __state = location['state']
     __city = location['city'].lower()

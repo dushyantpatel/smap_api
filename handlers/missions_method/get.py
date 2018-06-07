@@ -1,4 +1,6 @@
 # TODO - implementation
+import pymysql
+
 from response_objects.response_body import Body
 from database_queries import *
 
@@ -13,8 +15,11 @@ def get(request, connection):
 
 
     with connection.cursor() as cur:
-        cur.execute(searchQuery)
-        missions = cur.fetchall()
+        try:
+            cur.execute(searchQuery)
+            missions = cur.fetchall()
+        except pymysql.err.IntegrityError:
+            raise HTTP_204_Exception('User not found')
 
 
     body = Body()

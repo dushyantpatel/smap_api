@@ -1,5 +1,4 @@
 # TODO - implementation
-
 from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
@@ -26,13 +25,17 @@ def post(request, connection):
     return body
 
 def checkRequiredKeys(mission):
+    missing_keys = []
+    error = False
     for key in requiredKeys:
         try:
             value = mission[key]
         except KeyError:
-            raise HTTP_204_Exception("Missing field [" + key + "] which is a required field")
+            error = True
+            missing_keys.append(key)
 
-
+    if error:
+        raise HTTP_400_Exception("Missing field [" + str(missing_keys) + "] which is a required field")
 def set_varaibles(request):
     return
 
