@@ -21,14 +21,18 @@ __longitude = 0
 
 
 # NOTE: this function must return a dictionary type
-def post(request, connection):
+def post(request, query_str_param, connection):
     """
     This method is used to make the POST request in for the /users resource
 
     :param request: the request_body dict object
     :param connection: the open connection to the MySQL database
+    :param query_str_param: the query string parameters dict object
     :return: the response body
     """
+
+    if query_str_param is None:
+        query_str_param = {}
 
     set_variables(request)
 
