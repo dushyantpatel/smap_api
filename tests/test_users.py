@@ -68,5 +68,5 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(201, status_code)
 
         # check for correct body
-        self.assertEqual(resp_body, None)
+        self.assertEqual(None, resp_body)
 

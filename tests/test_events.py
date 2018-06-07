@@ -2,6 +2,7 @@ import unittest
 import pymysql
 import rds_config
 import sys
+import json
 from tests.event import Event
 from gateway import main_handler
 
@@ -76,11 +77,11 @@ class TestEvents(unittest.TestCase):
         self.req_body['events'] = test_dict['events']
         self.event.setBody(str(self.req_body))
         response = main_handler(self.event.getEvent(), context)
-        resp_body = response['body']
+        resp_body = json.loads(response['body'])
         status_code = response['statusCode']
 
         # check for correct status code
         self.assertEqual(201, status_code)
 
         # check for correct body
-        self.assertEqual(str(None), resp_body)
+        self.assertEqual(None, resp_body)
