@@ -23,12 +23,12 @@ def get(request, query_str_param, connection):
         # add user details
         if item is not None:
             body.addParameter('display_name', item[1])
-            body.addParameter('profile_pic', '' if item[2] is None else item[2])
+            body.addParameter('profile_pic', item[2])
             body.addParameter('email', item[3])
             body.addParameter('first_name', item[4])
             body.addParameter('last_name', item[5])
             body.addParameter('mission_curator', False if item[6] == 0 else True)
-            body.addParameter('birthday', '' if item[7] is None else item[7])
+            body.addParameter('birthday', item[7])
 
             # add user's address as location
             if item[8] is not None:
@@ -46,6 +46,6 @@ def get(request, query_str_param, connection):
                 location['longitude'] = loc[7]
                 body.addParameter('location', location)
             else:
-                body.addParameter('location', item[8])
+                body.addParameter('location', None)
 
     return body
