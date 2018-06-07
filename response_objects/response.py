@@ -1,3 +1,5 @@
+import json
+
 """
 This class will help you generate a response object (dict).
 All you have to do is set the values.
@@ -27,10 +29,7 @@ class Response:
 
     # function to set the body in the response
     def setBody(self, body):
-        if isinstance(body, str):
-            self.__body = body
-        else:
-            self.__body = str(body)
+        self.__body = body
 
     # function to set the isBase64Encoded in the response
     # NOTE: isBase64Encoded must be of type bool
@@ -44,6 +43,6 @@ class Response:
             "isBase64Encoded": self.__isBase64Encoded,
             "statusCode": self.__statusCode,
             "headers": self.__headers,
-            "body": self.__body
+            "body": json.dumps(self.__body)
         }
         return resp
