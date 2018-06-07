@@ -2,6 +2,7 @@ from response_objects import *
 from handlers.users_method import *
 from exceptions import *
 import ast
+import json
 
 
 # dictionary of valid methods for users
@@ -54,4 +55,4 @@ def handler(event, connection):
     header.addParameter('details', details)
     res = Response(status_code, header.getHeader(), res_body.getBody())
 
-    return res.getResponse()
+    return json.dumps(res.getResponse(), indent=4)

@@ -25,8 +25,8 @@ class Body:
         if isinstance(body, dict):
             self.__body = body
 
-    # function to get the string for body
+    # function to get the body
     def getBody(self):
         if self.__body is None or len(self.__body) == 0:
-            return str(None)
-        return str(self.__body)
+            return None
+        return self.__body
