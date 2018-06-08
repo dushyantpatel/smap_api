@@ -89,13 +89,14 @@ def verify_events(event):
         if field not in event:
             event[field] = ''
 
+
 def verify_new_event(command_search_event,connection):
     # Checking if event is already in the DB by name and location
     with connection.cursor() as cur:
         cur.execute(command_search_event)
         found = cur.fetchone()
-        if found is None:
-            return True
+        return found is None
+
 
 def verify_location(event):
     # Checking required variables within location of events
