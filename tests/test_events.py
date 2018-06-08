@@ -18,8 +18,7 @@ path = 'events'
 context = None
 
 
-class TestEvents(unittest.TestCase
-                 ):
+class TestEvents(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         global connection
