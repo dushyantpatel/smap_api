@@ -40,7 +40,7 @@ def post(request, connection):
         if new_event is False:
             continue
         # post the edited information of the event onto the data_base
-        command_add_event = query_strings.add_event_required.format(str(event['name']).encode('utf8'), event['type'], location_id,
+        command_add_event = query_strings.add_event_required.format(event['name'], event['type'], location_id,
                                                                     event['event_date'], event['start_time'],
                                                                     event['end_time'], event['is_public'],
                                                                     event['is_free'], event['points'])
