@@ -34,8 +34,13 @@ def post(request, connection):
         # Check Get_Loc first to see if id is already there so we don't duplicate ids
         location_id = get_loc_id(command_add_loc, command_get_loc, connection)
 
+        # Check if event is not already in the Data Base
+        command_search_event = query_strings.search_for_event_in_db.format(str(event['name']), location_id)
+        new_event = verify_new_event(command_search_event,connection)
+        if new_event is False:
+            continue
         # post the edited information of the event onto the data_base
-        command_add_event = query_strings.add_event_required.format(event['name'], event['type'], location_id,
+        command_add_event = query_strings.add_event_required.format(str(event['name']).encode('utf8'), event['type'], location_id,
                                                                     event['event_date'], event['start_time'],
                                                                     event['end_time'], event['is_public'],
                                                                     event['is_free'], event['points'])
@@ -84,6 +89,13 @@ def verify_events(event):
         if field not in event:
             event[field] = ''
 
+def verify_new_event(command_search_event,connection):
+    # Checking if event is already in the DB by name and location
+    with connection.cursor() as cur:
+        cur.execute(command_search_event)
+        found = cur.fetchone()
+        if found is None:
+            return True
 
 def verify_location(event):
     # Checking required variables within location of events

@@ -111,6 +111,9 @@ search_all_events = 'SELECT event_id FROM event;'
 # search specific event knowing the event city
 search_for_event_city = 'SELECT event_id FROM event WHERE city="{}";'
 
+# search if event exists in database
+search_for_event_in_db = 'SELECT event_id FROM event WHERE name="{}" AND location="{}"'
+
 # search specific event knowing the event type
 search_for_event_type = 'SELECT event_id FROM event WHERE type="{}";'
 
