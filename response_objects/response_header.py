@@ -19,6 +19,8 @@ class Header:
             if self.__header is None:
                 self.__header = {}
             self.__header[key] = value
+        else:
+            raise Exception("In header, key must be of type str")
 
     # function to get the header as a dictionary
     def getHeader(self):

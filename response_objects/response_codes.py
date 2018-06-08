@@ -14,4 +14,4 @@ def responseCodeDescription(code):
     try:
         return __http_resp_code[code]
     except KeyError:
-        return ''
+        raise Exception("The HTTP response code " + str(code) + " does not exist")

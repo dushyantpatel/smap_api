@@ -3,7 +3,6 @@ from handlers.users_method import *
 from exceptions import *
 import ast
 
-
 # dictionary of valid methods for users
 methods = {'GET': get,
            'POST': post,
@@ -28,7 +27,8 @@ def handler(event, connection):
 
     try:
         req_body = "{}" if event['body'] is None else event['body']
-        res_body = methods[method](ast.literal_eval(req_body), connection)
+        query_str_param = event['queryStringParameters']
+        res_body = methods[method](ast.literal_eval(req_body), query_str_param, connection)
         if method == 'GET':
             status_code = 200
     except KeyError:

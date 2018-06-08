@@ -18,15 +18,19 @@ class Body:
             if self.__body is None:
                 self.__body = {}
             self.__body[key] = value
+        else:
+            raise Exception("In body, key must be of type str")
 
     # function to set the body
     # NOTE: the body must be of type dict
     def setBody(self, body):
         if isinstance(body, dict):
             self.__body = body
+        elif body is not None:
+            raise Exception("The body must be of type dict")
 
-    # function to get the string for body
+    # function to get the body
     def getBody(self):
         if self.__body is None or len(self.__body) == 0:
-            return str(None)
-        return str(self.__body)
+            return None
+        return self.__body
