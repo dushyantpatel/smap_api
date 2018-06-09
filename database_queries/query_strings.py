@@ -86,7 +86,7 @@ friend_request_rejected = 'DELETE FROM friendsList WHERE user1=' + '(' + search_
 search_friends = 'SELECT user2 FROM friendsList WHERE user1=' + '(' + search_for_user_email + ')' \
                  + ' AND is_friend="yes";'
 
-# search all pending friend requests of a specific user
+# search all pending friend requests that a specific user has to respond to
 search_pending_requests = 'SELECT user1 FROM friendsList WHERE user2=' + '(' + search_for_user_email + ') ' \
                           'AND is_friend="NULL";'
 
