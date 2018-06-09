@@ -70,11 +70,11 @@ def get_events(connection, city=None, event_id=None):
             event['location'] = location
         else:
             event['location'] = None
-        event['event_date'] = item[7]
-        event['start_time'] = item[8]
-        event['end_time'] = item[9]
-        event['is_public'] = item[10]
-        event['is_free'] = item[11]
+        event['event_date'] = str(item[7])
+        event['start_time'] = str(item[8])
+        event['end_time'] = str(item[9])
+        event['is_public'] = bool(item[10])
+        event['is_free'] = bool(item[11])
         event['points'] = item[12]
         events.append(event)
 
