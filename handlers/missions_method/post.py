@@ -1,4 +1,3 @@
-# TODO - implementation
 from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
@@ -14,7 +13,7 @@ __latitude = ''
 __longitude = ''
 
 # NOTE: this function must return a dictionary type
-def post(request, connection):
+def post(request, query_str_param, connection):
 
     missions = request['missions']
 

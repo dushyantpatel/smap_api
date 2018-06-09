@@ -1,11 +1,11 @@
-# TODO - implementation
 import pymysql
 
 from response_objects.response_body import Body
 from database_queries import *
+from exceptions import *
 
 # NOTE: this function must return a dictionary type
-def get(request, connection):
+def get(request, query_str_param, connection):
 
     try:
         name = request['name']
