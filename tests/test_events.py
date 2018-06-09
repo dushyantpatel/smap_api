@@ -85,3 +85,12 @@ class TestEvents(unittest.TestCase):
 
         # check for correct body
         self.assertEqual(None, resp_body)
+
+    def test_get_event_by_id(self):
+        self.event.setHttpMethod('GET')
+        self.event.setQueryStringParameters({'event_id': "27"})
+        response = main_handler(self.event.getEvent(), context)
+        status_code = response['statusCode']
+
+        # check for correct status code
+        self.assertEqual(200, status_code)
