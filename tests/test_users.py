@@ -57,7 +57,7 @@ class TestUsers(unittest.TestCase):
         self.req_body['email'] = 'test.email@smap.com'
         self.req_body['first_name'] = 'Test'
         self.req_body['last_name'] = 'Case'
-        self.event.setBody(str(self.req_body))
+        self.event.setBody(json.dumps(self.req_body))
 
         response = main_handler(self.event.getEvent(), context)
 

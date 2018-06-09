@@ -94,34 +94,49 @@ def set_variables(request):
 
     global __first_name, __last_name, __display_name, __email, \
         __profile_pic, __mission_curator, __birthday, __location
+
     # checking for required fields
     try:
         __first_name = request['first_name']
         __last_name = request['last_name']
         __display_name = request['display_name']
         __email = request['email']
+        if type(__first_name) is not str or type(__last_name) is not \
+                str or type(__display_name) is not str or type(__email) is not str:
+            raise HTTP_400_Exception('Required field(s) must be type of string')
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s)')
 
     # checking for optional fields
     try:
         __profile_pic = request['profile_pic']
+        if __profile_pic is None:
+            __profile_pic = ""
     except KeyError:
         __profile_pic = ""
 
     try:
         __mission_curator = request['mission_curator']
+        if __mission_curator is None or __mission_curator is False:
+            __mission_curator = 0  # false
+        else:
+            __mission_curator = 1  # true
     except KeyError:
         __mission_curator = 0  # false
 
     try:
         __birthday = request['birthday']
+        if __birthday is None:
+            __birthday = ""
     except KeyError:
         __birthday = ""
 
     try:
         __location = request['location']
-        set_location_variables()
+        if type(__location) == dict:
+            set_location_variables()
+        else:
+            __location = None
     except KeyError:
         __location = None
 
@@ -140,15 +155,21 @@ def set_location_variables():
         __state = __location['state']
         __zip = __location['zip']
         __country = __location['country']
+        if __street is None or __city is None or __state is None or __country is None or __zip is None:
+            raise HTTP_400_Exception('Required field(s) for Location should not be null')
     except KeyError:
         raise HTTP_400_Exception('Missing required field(s) for Location')
 
     try:
         __latitude = __location['latitude']
+        if __latitude is None:
+            __latitude = 0
     except KeyError:
         __latitude = 0
 
     try:
         __longitude = __location['longitude']
+        if __longitude is None:
+            __longitude = 0
     except KeyError:
         __longitude = 0
