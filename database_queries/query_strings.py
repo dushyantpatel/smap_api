@@ -132,11 +132,11 @@ link_event_history = 'INSERT INTO eventHistory (is_going, user, event) VALUES ("
 # -------------------------------------------------------------------------------
 # add a brand new mission with all information
 add_mission = 'INSERT INTO mission (name, image, description, location, mission_date, mission_start, ' \
-              'mission_end, points) VALUES ("{}", "{}", "{}",(' + search_for_location + \
-              '), "{}", "{}", "{}", {});'
+              'mission_end, points, type,) VALUES ("{}", "{}", "{}",(' + search_for_location + \
+              '), "{}", "{}", "{}", {}, "{}", "{}");'
 
 # add a brand new mission with only required fields
-add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, type, description)' \
+add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, description, image)' \
                        ' VALUES ("{}",(' + search_for_location + '), "{}", "{}", "{}", {}, "{}", "{}");'
 
 # search all missions

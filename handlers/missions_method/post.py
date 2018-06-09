@@ -3,15 +3,14 @@ from response_objects.response_body import Body
 from database_queries import *
 from exceptions import *
 
-requiredKeys = ['name', 'location', 'mission_start', 'mission_end', 'points']
-optional_keys = ['type', 'description']
+requiredKeys = ['name', 'location', 'mission_start', 'mission_end', 'points', 'image','description', 'mission_date']
 __street = ''
 __city = ''
 __state = ''
-__zip = ''
+__zip = 0
 __country = ''
-__latitude = ''
-__longitude = ''
+__latitude = 0
+__longitude = 0
 
 # NOTE: this function must return a dictionary type
 def post(request, connection):
@@ -28,10 +27,11 @@ def post(request, connection):
         add_location = query_strings.add_location.format(__street, __city, __state, __zip, __country,
                                                             __latitude, __longitude)
         locatoion_id = get_loc_id(add_location,search_location,connection )
-
-
         command_add_mission = query_strings.add_mission_required.format(mission['name'], locatoion_id, mission['mission_date'], mission['mission_start'],
-                                                                        mission['mission_end'], mission['points'],mission['type'], mission['description'])
+                                                                        mission['mission_end'],
+                                                                        mission['points'],
+                                                                        mission['description'],
+                                                                        mission['image'])
 
         with connection.cursor() as cur:
             cur.execute(command_add_mission)
