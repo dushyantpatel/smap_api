@@ -13,6 +13,10 @@ __longitude = ''
 
 # NOTE: this function must return a dictionary type
 def post(request, query_str_param, connection):
+
+    if query_str_param is None:
+        query_str_param = {}
+
     events = request['events']
 
     # verify all events first
