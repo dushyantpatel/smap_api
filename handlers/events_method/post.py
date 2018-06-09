@@ -13,7 +13,6 @@ __longitude = ''
 
 # NOTE: this function must return a dictionary type
 def post(request, query_str_param, connection):
-
     if query_str_param is None:
         query_str_param = {}
 
@@ -40,15 +39,19 @@ def post(request, query_str_param, connection):
 
         # Check if event is not already in the Data Base
         command_search_event = query_strings.search_for_event_in_db.format(event['name'], location_id)
-        new_event = verify_new_event(command_search_event,connection)
+        new_event = verify_new_event(command_search_event, connection)
 
         if new_event is False:
             continue
         # post the edited information of the event onto the data_base
-        command_add_event = query_strings.add_event_required.format(event['name'], event['type'], location_id,
-                                                                    event['event_date'], event['start_time'],
-                                                                    event['end_time'], event['is_public'],
-                                                                    event['is_free'], event['points'])
+        command_add_event = query_strings.add_event_all_fields_except_host.format(event['name'], event['type'],
+                                                                                  location_id,
+                                                                                  event['event_date'],
+                                                                                  event['start_time'],
+                                                                                  event['end_time'], event['is_public'],
+                                                                                  event['is_free'], event['points'],
+                                                                                  event['image'],
+                                                                                  event['description'])
         with connection.cursor() as cur:
             cur.execute(command_add_event)
             connection.commit()
@@ -58,7 +61,6 @@ def post(request, query_str_param, connection):
 
 
 def get_loc_id(command_add_loc, command_get_loc, connection):
-
     # checking if location_id is already within the data_base
     with connection.cursor() as cur:
         cur.execute(command_get_loc)
@@ -77,7 +79,6 @@ def get_loc_id(command_add_loc, command_get_loc, connection):
 
 
 def verify_events(event):
-
     # checking if required variables are correct
     required_fields = ['name', 'type', 'location', 'event_date', 'start_time',
                        'end_time', 'is_public', 'is_free', 'points']
@@ -94,13 +95,16 @@ def verify_events(event):
     verify_location(event)
 
     # checking if optional fields exist
-    optional_fields = ['description', 'host']
+    optional_fields = ['description', 'host', 'image']
     for field in optional_fields:
         if field not in event:
             event[field] = ''
+        else:
+            if type(event[field]) != str:
+                raise HTTP_400_Exception('Expecting ' + str(str) + ' for field ' + field + ' in event ' + str(event))
 
 
-def verify_new_event(command_search_event,connection):
+def verify_new_event(command_search_event, connection):
     # Checking if event is already in the DB by name and location
     with connection.cursor() as cur:
         cur.execute(command_search_event)
@@ -132,4 +136,3 @@ def set_location_variables(location):
     __zip = location['zip']
     __latitude = location['latitude']
     __country = location['country']
-
