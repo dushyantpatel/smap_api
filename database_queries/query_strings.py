@@ -36,7 +36,10 @@ add_user_required = 'INSERT INTO user (display_name, email, first_name, last_nam
 search_all_users = 'SELECT user_id FROM user;'
 
 # search all user details by email
-search_all_user_details_by_email = 'SELECT * FROM user WHERE email = "{}"'
+search_all_user_details_by_email = 'SELECT * FROM user WHERE email="{}"'
+
+# search for user email by user_id
+search_user_email_by_user_id = 'SELECT email FROM user WHERE user_id={}'
 
 # search specific user knowing their email
 search_for_user_email = 'SELECT user_id FROM user WHERE email="{}";'
@@ -107,9 +110,17 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 # search all events
 search_all_events = 'SELECT event_id FROM event;'
 
+# get all events
+get_all_events = 'SELECT * FROM event'
 
 # search specific event knowing the event city
 search_for_event_city = 'SELECT event_id FROM event WHERE city="{}";'
+
+# search specific event knowing the event city
+search_for_all_event_fields_city = 'SELECT * FROM event WHERE city="{}";'
+
+# search event by id
+search_event_by_id = 'SELECT * FROM event WHERE event_id={}'
 
 # search if event exists in database
 search_for_event_in_db = 'SELECT event_id FROM event WHERE name="{}" AND location={}'
