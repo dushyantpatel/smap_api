@@ -110,7 +110,7 @@ add_event_required = 'INSERT INTO event (name, type, location, event_date, event
 # add event with all fields except the host
 add_event_all_fields_except_host = 'INSERT INTO event (name, type, location, event_date, event_start, event_end, ' \
                      'is_public, is_free, points, image, description) VALUES' \
-                                   ' ("{}", "{}", {}, "{}", "{}", "{}", {}, {}, {}, {}, {});'
+                                   ' ("{}", "{}", {}, "{}", "{}", "{}", {}, {}, {}, "{}", "{}");'
 
 # search all events
 search_all_events = 'SELECT event_id FROM event;'
