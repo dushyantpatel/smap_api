@@ -1,51 +1,81 @@
-# TODO - implementation
 from response_objects.response_body import Body
-import pymysql
 from database_queries import *
 from exceptions import *
-"""
-First: 
-Get events from data that match descrip/var passed by front end put into body to return
-Get all events with passed in category
-Generally by any event variable
-var_list = list(var)
-body.addPara('data', var_list)
-"""
+
 
 # NOTE: this function must return a dictionary type
-def get(request, connection):
-    """
-    Maybe for later implenting
-    #required variable
-    zip = None
-    #optional variables
-    catagory = None
-    name = None
-       try:
-        zip = request['zip']
-    except KeyError:
-        raise HTTP_204_Exception("Missing a required field")
-    try:
-        name = request['name']
-    except KeyError:
-        pass
-    if name == None:
-        try:
-            catagory = request['catagory']
-        except KeyError:
-            pass
-        if catagory == None:
-   """
-    #Get all events from the data_base within the users city
-    try:
-        __city = request['city']
-    except KeyError:
-        raise HTTP_204_Exception("Missing a required field")
-    __city = __city.lower()
-    search_city = query_strings.search_for_event_city.format(__city)
-    with connection.cursor() as cur:
-        cur.execute(search_city)
-        __events = cur.fetchall()
+def get(request, query_str_param, connection):
     body = Body()
-    body.addParameter('events', __events)
-    return body
+
+    # return all events if query_str_param is None
+    if query_str_param is None:
+        body.setBody(get_events(connection))
+        return body
+
+    if 'city' in query_str_param:
+        city = query_str_param['city']
+        city = city.lower()
+        body.setBody(get_events(connection, city))
+        return body
+
+    if 'event_id' in query_str_param:
+        event_id = query_str_param['event_id']
+        event = get_events(connection, None, event_id)
+        if len(event) == 0:
+            return body
+        else:
+            body.setBody(event[0])
+            return body
+
+    raise HTTP_400_Exception('Missing required fields for get events')
+
+
+def get_events(connection, city=None, event_id=None):
+    events = list()
+    with connection.cursor() as cur:
+        if city is None and event_id is None:
+            cur.execute(query_strings.get_all_events)
+        elif city is not None:
+            cur.execute(query_strings.search_for_all_event_fields_city.format(city))
+        else:
+            cur.execute(query_strings.search_event_by_id.format(event_id))
+        li = cur.fetchall()
+    for item in li:
+        event = dict()
+        event['event_id'] = item[0]
+        event['name'] = item[1]
+        event['image'] = item[2]
+        event['type'] = item[3]
+        host_id = item[4]
+        if host_id is not None:
+            with connection.cursor() as cur:
+                cur.execute(query_strings.search_user_email_by_user_id.format(host_id))
+                event['host'] = cur.fetchone()[0]
+        else:
+            event['host'] = None
+        event['description'] = item[5]
+        location_id = item[6]
+        if location_id is not None:
+            with connection.cursor() as cur:
+                cur.execute(query_strings.search_all_fields_location.format(location_id))
+                loc = cur.fetchone()
+            location = dict()
+            location['street'] = loc[1]
+            location['city'] = loc[2].title()
+            location['state'] = loc[3]
+            location['zip'] = loc[4]
+            location['country'] = loc[5]
+            location['latitude'] = loc[6]
+            location['longitude'] = loc[7]
+            event['location'] = location
+        else:
+            event['location'] = None
+        event['event_date'] = str(item[7])
+        event['start_time'] = str(item[8])
+        event['end_time'] = str(item[9])
+        event['is_public'] = bool(item[10])
+        event['is_free'] = bool(item[11])
+        event['points'] = item[12]
+        events.append(event)
+
+    return events

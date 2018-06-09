@@ -24,10 +24,7 @@ class Body:
     # function to set the body
     # NOTE: the body must be of type dict
     def setBody(self, body):
-        if isinstance(body, dict):
-            self.__body = body
-        elif body is not None:
-            raise Exception("The body must be of type dict")
+        self.__body = body
 
     # function to get the body
     def getBody(self):
