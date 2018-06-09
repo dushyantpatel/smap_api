@@ -136,8 +136,8 @@ add_mission = 'INSERT INTO mission (name, image, description, location, mission_
               '), "{}", "{}", "{}", {});'
 
 # add a brand new mission with only required fields
-add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points)' \
-                       ' VALUES ("{}",(' + search_for_location + '), "{}", "{}", "{}", {});'
+add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, type, description)' \
+                       ' VALUES ("{}",(' + search_for_location + '), "{}", "{}", "{}", {}, "{}", "{}");'
 
 # search all missions
 search_all_missions = 'SELECT mission_id FROM mission;'
