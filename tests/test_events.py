@@ -75,7 +75,7 @@ class TestEvents(unittest.TestCase):
                                     'location': location, 'points': points, 'is_public': is_public,
                                     'event_date': event_date, 'type': event_type})
         self.req_body['events'] = test_dict['events']
-        self.event.setBody(str(self.req_body))
+        self.event.setBody(json.dumps(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = json.loads(response['body'])
         status_code = response['statusCode']

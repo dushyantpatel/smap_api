@@ -13,7 +13,7 @@ body.addPara('data', var_list)
 """
 
 # NOTE: this function must return a dictionary type
-def get(request, connection):
+def get(request, query_str_param, connection):
     """
     Maybe for later implenting
     #required variable
@@ -38,7 +38,7 @@ def get(request, connection):
    """
     #Get all events from the data_base within the users city
     try:
-        __city = request['city']
+        __city = query_str_param['city']
     except KeyError:
         raise HTTP_204_Exception("Missing a required field")
     __city = __city.lower()

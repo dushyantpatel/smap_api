@@ -12,7 +12,7 @@ __longitude = ''
 
 
 # NOTE: this function must return a dictionary type
-def post(request, connection):
+def post(request, query_str_param, connection):
     events = request['events']
 
     # verify all events first
@@ -76,8 +76,13 @@ def verify_events(event):
     # checking if required variables are correct
     required_fields = ['name', 'type', 'location', 'event_date', 'start_time',
                        'end_time', 'is_public', 'is_free', 'points']
-    for field in required_fields:
-        if field not in event:
+    required_fields_type = [str, str, dict, str, str, str, bool, bool, int]
+    for field, field_type in zip(required_fields, required_fields_type):
+        try:
+            if type(event[field]) != field_type:
+                raise HTTP_400_Exception('Expecting type ' +
+                                         str(field_type) + ' for ' + field + ' in event: ' + str(event))
+        except KeyError:
             raise HTTP_400_Exception('Missing required field - ' + field + ' in event: ' + str(event))
 
     # verify the location fields
@@ -102,9 +107,14 @@ def verify_location(event):
     # Checking required variables within location of events
     location = event['location']
     required_fields = ['street', 'city', 'state', 'zip', 'country', 'latitude', 'longitude']
-    for field in required_fields:
-        if field not in location:
-            raise HTTP_400_Exception('Missing required field - ' + field + ' in location for event - ' + str(event))
+    required_fields_type = [str, str, str, int, str, float, float]
+    for field, field_type in zip(required_fields, required_fields_type):
+        try:
+            if type(location[field]) != field_type:
+                raise HTTP_400_Exception('Expecting type ' + str(field_type) +
+                                         ' for "' + field + '" in location for event - ' + str(event))
+        except KeyError:
+            raise HTTP_400_Exception('Missing required field - ', field, ' in location for event - ', event)
 
 
 def set_location_variables(location):
