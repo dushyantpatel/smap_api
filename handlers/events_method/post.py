@@ -35,8 +35,8 @@ def post(request, connection):
         location_id = get_loc_id(command_add_loc, command_get_loc, connection)
 
         # Check if event is not already in the Data Base
-        command_search_event = query_strings.search_for_event_in_db.format(str(event['name']), location_id)
-        new_event = verify_new_event(command_search_event,connection)
+        command_search_event = query_strings.search_for_event_in_db.format(event['name'], location_id)
+        new_event = verify_new_event(command_search_event, connection)
         if new_event is False:
             continue
         # post the edited information of the event onto the data_base
