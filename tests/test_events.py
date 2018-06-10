@@ -78,6 +78,7 @@ class TestEvents(unittest.TestCase):
         self.event.setBody(json.dumps(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = json.loads(response['body'])
+        print(resp_body)
         status_code = response['statusCode']
 
         # check for correct status code

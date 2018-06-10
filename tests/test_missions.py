@@ -46,7 +46,7 @@ class TestEvents(unittest.TestCase):
             cur.execute('SELECT * FROM mission WHERE name="New Mission"')
             li = cur.fetchall()
             for row in li:
-                cur.execute('DELETE FROM mission WHERE event_id=' + str(row[0]))
+                cur.execute('DELETE FROM mission WHERE mission_id=' + str(row[0]))
             connection.commit()
 
             cur.execute('SELECT * FROM location WHERE latitude=0.000 AND longitude=0.000')
@@ -77,6 +77,7 @@ class TestEvents(unittest.TestCase):
         self.event.setBody(str(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = json.loads(response['body'])
+        print(resp_body)
         status_code = response['statusCode']
         print(response)
 

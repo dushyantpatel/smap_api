@@ -27,7 +27,8 @@ def post(request, connection):
         add_location = query_strings.add_location.format(__street, __city, __state, __zip, __country,
                                                             __latitude, __longitude)
         locatoion_id = get_loc_id(add_location,search_location,connection )
-        command_add_mission = query_strings.add_mission_required.format(mission['name'], locatoion_id, mission['mission_date'], mission['mission_start'],
+        print(type(mission))
+        command_add_mission = query_strings.add_mission_required_with_loc_id.format(mission['name'],locatoion_id, mission['mission_date'], mission['mission_start'],
                                                                         mission['mission_end'],
                                                                         mission['points'],
                                                                         mission['description'],
