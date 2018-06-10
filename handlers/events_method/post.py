@@ -10,13 +10,23 @@ __country = ''
 __latitude = ''
 __longitude = ''
 
+required_fields_event = ['name', 'type', 'location', 'event_date', 'start_time',
+                         'end_time', 'is_public', 'is_free', 'points']
+required_fields_type_event = [str, str, dict, str, str, str, bool, bool, int]
+optional_fields_event = ['description', 'host', 'image', 'url']
+required_fields_location = ['street', 'city', 'state', 'zip', 'country', 'latitude', 'longitude']
+required_fields_type_location = [str, str, str, int, str, float, float]
+
 
 # NOTE: this function must return a dictionary type
 def post(request, query_str_param, connection):
     if query_str_param is None:
         query_str_param = {}
 
-    events = request['events']
+    if 'events' in request:
+        events = request['events']  # call from event scraper
+    else:
+        events = [request]  # call from frontend
 
     # verify all events first
     for event in events:
@@ -51,7 +61,7 @@ def post(request, query_str_param, connection):
                                                                                   event['end_time'], event['is_public'],
                                                                                   event['is_free'], event['points'],
                                                                                   event['image'],
-                                                                                  event['description'])
+                                                                                  event['description'], event['url'])
         with connection.cursor() as cur:
             cur.execute(command_add_event)
             connection.commit()
@@ -80,10 +90,7 @@ def get_loc_id(command_add_loc, command_get_loc, connection):
 
 def verify_events(event):
     # checking if required variables are correct
-    required_fields = ['name', 'type', 'location', 'event_date', 'start_time',
-                       'end_time', 'is_public', 'is_free', 'points']
-    required_fields_type = [str, str, dict, str, str, str, bool, bool, int]
-    for field, field_type in zip(required_fields, required_fields_type):
+    for field, field_type in zip(required_fields_event, required_fields_type_event):
         try:
             if type(event[field]) != field_type:
                 raise HTTP_400_Exception('Expecting type ' +
@@ -95,8 +102,7 @@ def verify_events(event):
     verify_location(event)
 
     # checking if optional fields exist
-    optional_fields = ['description', 'host', 'image']
-    for field in optional_fields:
+    for field in optional_fields_event:
         if field not in event:
             event[field] = ''
         else:
@@ -115,9 +121,7 @@ def verify_new_event(command_search_event, connection):
 def verify_location(event):
     # Checking required variables within location of events
     location = event['location']
-    required_fields = ['street', 'city', 'state', 'zip', 'country', 'latitude', 'longitude']
-    required_fields_type = [str, str, str, int, str, float, float]
-    for field, field_type in zip(required_fields, required_fields_type):
+    for field, field_type in zip(required_fields_location, required_fields_type_location):
         try:
             if type(location[field]) != field_type:
                 raise HTTP_400_Exception('Expecting type ' + str(field_type) +
