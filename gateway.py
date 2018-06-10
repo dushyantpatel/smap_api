@@ -11,6 +11,8 @@ rds_host = rds_config.db_host
 name = rds_config.db_username
 password = rds_config.db_password
 db_name = rds_config.db_name
+charset = rds_config.db_charset
+use_unicode = rds_config.db_use_unicode
 
 # logger settings
 logger = logging.getLogger()
@@ -18,7 +20,8 @@ logger.setLevel(logging.INFO)
 
 # connect to database
 try:
-    connection = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
+    connection = pymysql.connect(rds_host, user=name, passwd=password, db=db_name,
+                                 charset=charset, use_unicode=use_unicode, connect_timeout=5)
 except pymysql.err.Error as ex:
     template = "ERROR: {0} - Could not connect to MySql instance \n{1!r}"
     message = template.format(type(ex).__name__, ex.args)

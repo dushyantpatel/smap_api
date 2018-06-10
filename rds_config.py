@@ -4,3 +4,5 @@ db_username = 'smapadmin'
 db_password = 'smapteam09'
 db_port = 3306
 db_name = 'smapdb'
+db_charset = 'utf8'
+db_use_unicode = True
