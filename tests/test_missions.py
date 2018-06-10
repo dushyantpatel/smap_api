@@ -74,7 +74,7 @@ class TestEvents(unittest.TestCase):
                                     'mission_end': end_time, 'description': description,
                                     'location': location, 'points': points,'mission_date': mission_date, 'image': image})
         self.req_body['missions'] = test_dict['missions']
-        self.event.setBody(str(self.req_body))
+        self.event.setBody(json.dumps(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = json.loads(response['body'])
         print(resp_body)

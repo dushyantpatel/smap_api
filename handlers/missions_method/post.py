@@ -39,7 +39,6 @@ def post(request, query_str_param, connection):
 
 
     body = Body()
-    body.addParameter('message', 'missions.post has been called')
     return body
 
 
