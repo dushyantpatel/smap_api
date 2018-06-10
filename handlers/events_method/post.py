@@ -103,7 +103,7 @@ def verify_events(event):
 
     # checking if optional fields exist
     for field in optional_fields_event:
-        if field not in event:
+        if field not in event or event[field] is None:
             event[field] = ''
         else:
             if type(event[field]) != str:

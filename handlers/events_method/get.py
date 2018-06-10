@@ -45,16 +45,17 @@ def get_events(connection, city=None, event_id=None):
         event['event_id'] = item[0]
         event['name'] = item[1]
         event['image'] = item[2]
-        event['type'] = item[3]
-        host_id = item[4]
+        event['url'] = item[3]
+        event['type'] = item[4]
+        host_id = item[5]
         if host_id is not None:
             with connection.cursor() as cur:
                 cur.execute(query_strings.search_user_email_by_user_id.format(host_id))
                 event['host'] = cur.fetchone()[0]
         else:
             event['host'] = None
-        event['description'] = item[5]
-        location_id = item[6]
+        event['description'] = item[6]
+        location_id = item[7]
         if location_id is not None:
             with connection.cursor() as cur:
                 cur.execute(query_strings.search_all_fields_location.format(location_id))
@@ -70,12 +71,12 @@ def get_events(connection, city=None, event_id=None):
             event['location'] = location
         else:
             event['location'] = None
-        event['event_date'] = str(item[7])
-        event['start_time'] = str(item[8])
-        event['end_time'] = str(item[9])
-        event['is_public'] = bool(item[10])
-        event['is_free'] = bool(item[11])
-        event['points'] = item[12]
+        event['event_date'] = str(item[8])
+        event['start_time'] = str(item[9])
+        event['end_time'] = str(item[10])
+        event['is_public'] = bool(item[11])
+        event['is_free'] = bool(item[12])
+        event['points'] = item[13]
         events.append(event)
 
     return events
