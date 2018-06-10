@@ -33,9 +33,9 @@ def handler(event, connection):
         res_body = methods[method](json.loads(req_body), query_str_param, connection)
         if method == 'GET':
             status_code = 200
-    except KeyError:
-        status_code = 501
-        details = 'The ' + method + ' method has not been implemented.'
+    # except KeyError:
+    #     status_code = 501
+    #     details = 'The ' + method + ' method has not been implemented.'
     except SyntaxError:
         status_code = 400
         details = 'Incorrect body format'
@@ -45,10 +45,10 @@ def handler(event, connection):
     except HTTP_400_Exception as ex:
         status_code = 400
         details = str(ex)
-    except Exception as ex:
-        status_code = 520
-        details = 'ERROR type: {0}. \n{1!r} \n please record details of your API call and let the API developer know.'
-        details = details.format(type(ex).__name__, ex.args)
+    # except Exception as ex:
+    #     status_code = 520
+    #     details = 'ERROR type: {0}. \n{1!r} \n please record details of your API call and let the API developer know.'
+    #     details = details.format(type(ex).__name__, ex.args)
 
     header.addParameter('status', status_code)
     header.addParameter('message', responseCodeDescription(status_code))

@@ -148,12 +148,17 @@ link_event_history = 'INSERT INTO eventHistory (is_going, user, event) VALUES ("
 # -------------------------------------------------------------------------------
 # add a brand new mission with all information
 add_mission = 'INSERT INTO mission (name, image, description, location, mission_date, mission_start, ' \
-              'mission_end, points) VALUES ("{}", "{}", "{}",(' + search_for_location + \
-              '), "{}", "{}", "{}", {});'
+              'mission_end, points, type,) VALUES ("{}", "{}", "{}",(' + search_for_location + \
+              '), "{}", "{}", "{}", {}, "{}", "{}");'
 
 # add a brand new mission with only required fields
-add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, type, description)' \
+add_mission_required = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, description, image)' \
                        ' VALUES ("{}",(' + search_for_location + '), "{}", "{}", "{}", {}, "{}", "{}");'
+
+# add a brand new mission with only required fields
+add_mission_required_with_loc_id = 'INSERT INTO mission (name, location, mission_date, mission_start, mission_end, points, description, image)' \
+                       ' VALUES ("{}",{}, "{}", "{}", "{}", {}, "{}", "{}");'
+
 
 # search all missions
 search_all_missions = 'SELECT mission_id FROM mission;'
@@ -167,3 +172,7 @@ search_for_mission = 'SELECT mission_id FROM mission WHERE name="{0}"'
 # link specific mission to specific user
 link_mission_history = 'INSERT INTO missionHistory (is_going, user, mission) VALUES ("{}",' \
                        + '(' + search_for_user_email + '),' + '(' + search_for_mission + '));'
+
+
+
+

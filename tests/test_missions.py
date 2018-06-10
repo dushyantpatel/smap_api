@@ -14,7 +14,7 @@ db_name = rds_config.db_name
 connection = None
 
 # resource settings
-path = 'events'
+path = 'missions'
 context = None
 
 
@@ -43,10 +43,10 @@ class TestEvents(unittest.TestCase):
     def tearDown(self):
         # clean up the database
         with connection.cursor() as cur:
-            cur.execute('SELECT * FROM event WHERE name="Best Event"')
+            cur.execute('SELECT * FROM mission WHERE name="New Mission"')
             li = cur.fetchall()
             for row in li:
-                cur.execute('DELETE FROM event WHERE event_id=' + str(row[0]))
+                cur.execute('DELETE FROM mission WHERE mission_id=' + str(row[0]))
             connection.commit()
 
             cur.execute('SELECT * FROM location WHERE latitude=0.000 AND longitude=0.000')
@@ -57,56 +57,32 @@ class TestEvents(unittest.TestCase):
 
     def test_add_new_event(self):
         self.event.setHttpMethod('POST')
-        test_dict = {'events': []}
-        event_name = 'Best Event'
-        event_type = 'Music'
-        is_public = True
-        event_date = '2018-06-15'
+        test_dict = {'missions': []}
+        mission_name = 'New Mission'
+        mission_type = 'Adventure'
+        mission_date = '2018-06-15'
         start_time = '15:30:00'
         end_time = '20:30:00'
+        description = "Sucks to succk"
+        image = ""
         points = 9000
-        is_free = False
-        location = {"street": 'Lame St.', "state": 'CA', "city": 'San Diego',
+        location = {"street": 'Lame St.', "state": 'CA', "city": 'san diego',
                     "country": 'United States', "zip": 92364,
                     "latitude": 0.000, "longitude": 0.000}
 
-        test_dict['events'].append({'name': event_name, 'start_time': start_time,
-                                    'end_time': end_time, 'is_free': is_free,
-                                    'location': location, 'points': points, 'is_public': is_public,
-                                    'event_date': event_date, 'type': event_type})
-        self.req_body['events'] = test_dict['events']
-        self.event.setBody(json.dumps(self.req_body))
+        test_dict['missions'].append({'name': mission_name, 'mission_start': start_time,
+                                    'mission_end': end_time, 'description': description,
+                                    'location': location, 'points': points,'mission_date': mission_date, 'image': image})
+        self.req_body['missions'] = test_dict['missions']
+        self.event.setBody(str(self.req_body))
         response = main_handler(self.event.getEvent(), context)
         resp_body = json.loads(response['body'])
         print(resp_body)
         status_code = response['statusCode']
+        print(response)
 
         # check for correct status code
         self.assertEqual(201, status_code)
 
         # check for correct body
         self.assertEqual(None, resp_body)
-
-    def test_get_event_by_id(self):
-        self.event.setHttpMethod('GET')
-        self.event.setQueryStringParameters({'event_id': "27"})
-        response = main_handler(self.event.getEvent(), context)
-        status_code = response['statusCode']
-
-        # check for correct status code
-        self.assertEqual(200, status_code)
-
-    # def test_chriss_events(self):
-    #     self.event.setHttpMethod('POST')
-    #     with open('events.txt', 'r') as file:
-    #         line = file.readline()
-    #     self.event.setBody(line)
-    #     # obj = dict(json.loads(line))
-    #     # for item in obj['events']:
-    #     #     print(item['image'])
-    #
-    #     response = main_handler(self.event.getEvent(), context)
-    #     status_code = response['statusCode']
-    #     headers = response['headers']
-    #     print(headers['details'])
-    #     print(status_code)
