@@ -85,3 +85,27 @@ class TestEvents(unittest.TestCase):
 
         # check for correct body
         self.assertEqual(None, resp_body)
+
+    def test_get_event_by_id(self):
+        self.event.setHttpMethod('GET')
+        self.event.setQueryStringParameters({'event_id': "27"})
+        response = main_handler(self.event.getEvent(), context)
+        status_code = response['statusCode']
+
+        # check for correct status code
+        self.assertEqual(200, status_code)
+
+    # def test_chriss_events(self):
+    #     self.event.setHttpMethod('POST')
+    #     with open('events.txt', 'r') as file:
+    #         line = file.readline()
+    #     self.event.setBody(line)
+    #     # obj = dict(json.loads(line))
+    #     # for item in obj['events']:
+    #     #     print(item['image'])
+    #
+    #     response = main_handler(self.event.getEvent(), context)
+    #     status_code = response['statusCode']
+    #     headers = response['headers']
+    #     print(headers['details'])
+    #     print(status_code)
