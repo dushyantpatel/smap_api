@@ -86,6 +86,36 @@ class TestEvents(unittest.TestCase):
         # check for correct body
         self.assertEqual(None, resp_body)
 
+    def test_add_new_event_frontend(self):
+        self.event.setHttpMethod('POST')
+        event_name = 'Best Event'
+        event_type = 'Music'
+        is_public = True
+        event_date = '2018-06-15'
+        start_time = '15:30:00'
+        end_time = '20:30:00'
+        points = 9000
+        is_free = False
+        location = {"street": 'Lame St.', "state": 'CA', "city": 'San Diego',
+                    "country": 'United States', "zip": 92364,
+                    "latitude": 0.000, "longitude": 0.000}
+
+        self.req_body = {'name': event_name, 'start_time': start_time,
+         'end_time': end_time, 'is_free': is_free,
+         'location': location, 'points': points, 'is_public': is_public,
+         'event_date': event_date, 'type': event_type}
+
+        self.event.setBody(json.dumps(self.req_body))
+        response = main_handler(self.event.getEvent(), context)
+        resp_body = json.loads(response['body'])
+        status_code = response['statusCode']
+
+        # check for correct status code
+        self.assertEqual(201, status_code)
+
+        # check for correct body
+        self.assertEqual(None, resp_body)
+
     def test_get_event_by_id(self):
         self.event.setHttpMethod('GET')
         self.event.setQueryStringParameters({'event_id': "27"})
